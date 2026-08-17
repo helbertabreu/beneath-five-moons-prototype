@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="FactionData" format=3 uid="uid://bx0inj04f8ouo"]
+
+[ext_resource type="Script" uid="uid://cp0ocuvqdqpw7" path="res://src/resources/faction_data.gd" id="1_dmmiq"]
+
+[resource]
+script = ExtResource("1_dmmiq")
+faction_id = "faccao_vilarejo"
+metadata/_custom_type_script = "uid://cp0ocuvqdqpw7"

@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://butu7pmnw6ym5"]
+
+[ext_resource type="Script" uid="uid://rmitojag20rw" path="res://src/scenes/main.gd" id="1_32aa5"]
+[ext_resource type="PackedScene" uid="uid://cuenh7dcb6xig" path="res://src/entities/player/player.tscn" id="2_5dlwx"]
+[ext_resource type="PackedScene" uid="uid://dv8k8mgc804q3" path="res://src/entities/resource_nodes/resource_node.tscn" id="3_dbro3"]
+[ext_resource type="PackedScene" uid="uid://cmwy1mpmb3xg2" path="res://src/ui/hud/hud.tscn" id="3_o81g6"]
+[ext_resource type="Resource" uid="uid://5y4md6cbdu0q" path="res://data/items/minerio_cobre.tres" id="4_2lg1k"]
+[ext_resource type="Resource" uid="uid://4fmphebmuk0p" path="res://data/items/pedra.tres" id="5_5lsyw"]
+[ext_resource type="PackedScene" uid="uid://dnhx2ejpfjuh5" path="res://src/entities/workstations/workstation.tscn" id="6_2lg1k"]
+[ext_resource type="Resource" uid="uid://c3kt2hywvabsn" path="res://data/recipes/receita_lingote_cobre.tres" id="7_kokaf"]
+[ext_resource type="Resource" uid="uid://bi65qjrjvlqo1" path="res://data/recipes/receita_ferramentas_cobre.tres" id="8_lp058"]
+[ext_resource type="PackedScene" uid="uid://dql6dmpo3cv7m" path="res://src/entities/npcs/npc_vendor.tscn" id="9_lp058"]
+[ext_resource type="Resource" uid="uid://bx0inj04f8ouo" path="res://data/factions/faccao_vilarejo.tres" id="10_p1ia5"]
+[ext_resource type="Resource" uid="uid://8xx6uyjayro2" path="res://data/items/ferramenta_cobre.tres" id="11_kbdt0"]
+[ext_resource type="PackedScene" uid="uid://bc7gy1au33nsg" path="res://src/entities/farming/crop_plot.tscn" id="12_kbdt0"]
+
+[node name="Main" type="Node2D" unique_id=888109347]
+script = ExtResource("1_32aa5")
+
+[node name="World" type="Node2D" parent="." unique_id=124787964]
+
+[node name="Player" parent="World" unique_id=991202017 instance=ExtResource("2_5dlwx")]
+
+[node name="ResourceNode" parent="World" unique_id=735145452 instance=ExtResource("3_dbro3")]
+position = Vector2(-200, -100)
+node_name = "Jazida de Cobre Norte"
+primary_item = ExtResource("4_2lg1k")
+secondary_item = ExtResource("5_5lsyw")
+
+[node name="Alto-Forno" parent="World" unique_id=965943006 instance=ExtResource("6_2lg1k")]
+position = Vector2(200, -100)
+station_name = "Alto-Forno do Vilarejo"
+recipe = ExtResource("7_kokaf")
+
+[node name="Bigorna" parent="World" unique_id=995396226 instance=ExtResource("6_2lg1k")]
+position = Vector2(200, 100)
+station_name = "Bigorna do Ferreiro"
+recipe = ExtResource("8_lp058")
+
+[node name="NPCVendor-Marcao" parent="World" unique_id=1204783100 instance=ExtResource("9_lp058")]
+position = Vector2(-207, 135)
+faction = ExtResource("10_p1ia5")
+item_to_sell = ExtResource("11_kbdt0")
+
+[node name="CropPlot" parent="World" unique_id=550460924 instance=ExtResource("12_kbdt0")]
+position = Vector2(337, 15)
+
+[node name="HUD" parent="." unique_id=1614635797 groups=["hud"] instance=ExtResource("3_o81g6")]

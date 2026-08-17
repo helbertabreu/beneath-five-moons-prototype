@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://bc7gy1au33nsg"]
+
+[ext_resource type="Texture2D" uid="uid://c5baptla3e6ri" path="res://icon.svg" id="1_700l0"]
+[ext_resource type="Script" uid="uid://drmejqwovbrab" path="res://src/entities/farming/crop_plot.gd" id="1_e2ojl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u0ya7"]
+size = Vector2(63, 62)
+
+[node name="CropPlot" type="Area2D" unique_id=550460924]
+script = ExtResource("1_e2ojl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=791059949]
+position = Vector2(-0.5, -1)
+shape = SubResource("RectangleShape2D_u0ya7")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1130307769]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_700l0")
+
+[node name="Label" type="Label" parent="." unique_id=1206635197]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -124.0
+offset_top = -57.0
+offset_right = 125.0
+offset_bottom = -34.0
+grow_horizontal = 2
+text = "[ Terra Arável ]\\n(E para Plantar)"

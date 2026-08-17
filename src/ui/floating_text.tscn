@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://4a0s7u4sbm41"]
+
+[ext_resource type="Script" uid="uid://dna2usl663qv7" path="res://src/ui/floating_text.gd" id="1_d02jk"]
+
+[node name="FloatingText" type="Label" unique_id=1139948789]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "+10 XP"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("1_d02jk")

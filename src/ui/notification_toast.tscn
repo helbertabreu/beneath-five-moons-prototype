@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://se613bl2uosl"]
+
+[ext_resource type="Script" uid="uid://de5w3tv2jpefj" path="res://src/ui/notification_toast.gd" id="1_78qhm"]
+
+[node name="NotificationToast" type="PanelContainer" unique_id=1858020025]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_78qhm")
+
+[node name="MessageLabel" type="Label" parent="." unique_id=570653033]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1

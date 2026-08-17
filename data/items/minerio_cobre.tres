@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://5y4md6cbdu0q"]
+
+[ext_resource type="Script" uid="uid://dmla7ty8ala8r" path="res://src/resources/item_data.gd" id="1_gpbx0"]
+
+[resource]
+script = ExtResource("1_gpbx0")
+id = "minerio_cobre"
+name = "Minério de Cobre"
+base_value = 15
+metadata/_custom_type_script = "uid://dmla7ty8ala8r"

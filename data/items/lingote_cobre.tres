@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://1tvpjr8jd07f"]
+
+[ext_resource type="Script" uid="uid://dmla7ty8ala8r" path="res://src/resources/item_data.gd" id="1_7qnpl"]
+
+[resource]
+script = ExtResource("1_7qnpl")
+id = "lingote_cobre"
+name = "Lingote de Cobre"
+base_value = 40
+metadata/_custom_type_script = "uid://dmla7ty8ala8r"

@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="RecipeData" format=3 uid="uid://bi65qjrjvlqo1"]
+
+[ext_resource type="Script" uid="uid://cqm7i1jaoii0h" path="res://src/resources/ingredient_data.gd" id="1_ey1kg"]
+[ext_resource type="Script" uid="uid://5waa0q1lmlih" path="res://src/resources/recipe_data.gd" id="2_ho3c3"]
+[ext_resource type="Resource" uid="uid://1tvpjr8jd07f" path="res://data/items/lingote_cobre.tres" id="2_jlb0a"]
+[ext_resource type="Resource" uid="uid://4fmphebmuk0p" path="res://data/items/pedra.tres" id="3_vm2k4"]
+[ext_resource type="Resource" uid="uid://8xx6uyjayro2" path="res://data/items/ferramenta_cobre.tres" id="4_vm2k4"]
+
+[sub_resource type="Resource" id="Resource_jlb0a"]
+script = ExtResource("1_ey1kg")
+item = ExtResource("2_jlb0a")
+amount = 2
+metadata/_custom_type_script = "uid://cqm7i1jaoii0h"
+
+[sub_resource type="Resource" id="Resource_vm2k4"]
+script = ExtResource("1_ey1kg")
+item = ExtResource("3_vm2k4")
+amount = 2
+metadata/_custom_type_script = "uid://cqm7i1jaoii0h"
+
+[resource]
+script = ExtResource("2_ho3c3")
+id = "receita_ferramentas_cobre"
+recipe_name = "Ferramentas de cobre (bigorna)"
+ingredients = Array[ExtResource("1_ey1kg")]([SubResource("Resource_jlb0a"), SubResource("Resource_vm2k4")])
+result_item = ExtResource("4_vm2k4")
+time_cost_minutes = 30
+energy_cost = 15.0
+xp_reward = 35
+metadata/_custom_type_script = "uid://5waa0q1lmlih"

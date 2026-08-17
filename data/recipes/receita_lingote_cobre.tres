@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="RecipeData" format=3 uid="uid://c3kt2hywvabsn"]
+
+[ext_resource type="Script" uid="uid://cqm7i1jaoii0h" path="res://src/resources/ingredient_data.gd" id="1_4kihm"]
+[ext_resource type="Resource" uid="uid://1tvpjr8jd07f" path="res://data/items/lingote_cobre.tres" id="1_octkd"]
+[ext_resource type="Script" uid="uid://5waa0q1lmlih" path="res://src/resources/recipe_data.gd" id="1_rrpwd"]
+[ext_resource type="Resource" uid="uid://5y4md6cbdu0q" path="res://data/items/minerio_cobre.tres" id="2_bg534"]
+
+[sub_resource type="Resource" id="Resource_ycvo8"]
+script = ExtResource("1_4kihm")
+item = ExtResource("2_bg534")
+amount = 3
+metadata/_custom_type_script = "uid://cqm7i1jaoii0h"
+
+[resource]
+script = ExtResource("1_rrpwd")
+id = "receita_lingote_cobre"
+recipe_name = "Lingote de Cobre (Alto-Forno)"
+crafting_type = 1
+ingredients = Array[ExtResource("1_4kihm")]([SubResource("Resource_ycvo8")])
+result_item = ExtResource("1_octkd")
+time_cost_minutes = 60
+energy_cost = 5.0
+xp_reward = 20
+metadata/_custom_type_script = "uid://5waa0q1lmlih"

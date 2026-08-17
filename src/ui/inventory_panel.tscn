@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://6h8hqrkxs5gl"]
+
+[ext_resource type="Script" uid="uid://b7vyhqonc5vpb" path="res://src/ui/inventory_panel.gd" id="1_1loxd"]
+
+[node name="InventoryPanel" type="PanelContainer" unique_id=1402449510]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_1loxd")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2684886]
+layout_mode = 2
+
+[node name="HeaderLabel" type="Label" parent="VBoxContainer" unique_id=2119560607]
+layout_mode = 2
+text = "Inventário"
+
+[node name="CoinsLabel" type="Label" parent="VBoxContainer" unique_id=1619682736]
+layout_mode = 2
+text = "Moedas: 100"
+
+[node name="ItemList" type="ItemList" parent="VBoxContainer" unique_id=936100162]
+custom_minimum_size = Vector2(200, 150)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CloseButton" type="Button" parent="VBoxContainer" unique_id=22269753]
+layout_mode = 2
+text = "Botão [X] para fechar"

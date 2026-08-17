@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://dnhx2ejpfjuh5"]
+
+[ext_resource type="Script" uid="uid://c8mvjvfkv6gxn" path="res://src/entities/workstations/workstation.gd" id="1_e8jwd"]
+[ext_resource type="Texture2D" uid="uid://c5baptla3e6ri" path="res://icon.svg" id="2_gkjo1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5h11f"]
+
+[node name="Workstation" type="StaticBody2D" unique_id=965943006 groups=["workstations"]]
+script = ExtResource("1_e8jwd")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=629743257]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_gkjo1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=778234469]
+
+[node name="InteractionArea" type="Area2D" parent="." unique_id=501366131]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea" unique_id=1178710612]
+shape = SubResource("RectangleShape2D_5h11f")

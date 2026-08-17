@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://dql6dmpo3cv7m"]
+
+[ext_resource type="Script" uid="uid://bkm0apq5fmmhn" path="res://src/entities/npcs/npc_vendor.gd" id="1_f63ga"]
+[ext_resource type="Texture2D" uid="uid://c5baptla3e6ri" path="res://icon.svg" id="2_500ln"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u0ya7"]
+
+[node name="NPCVendor" type="StaticBody2D" unique_id=1204783100 groups=["vendors"]]
+script = ExtResource("1_f63ga")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1006341053]
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_500ln")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1890757745]
+shape = SubResource("RectangleShape2D_u0ya7")

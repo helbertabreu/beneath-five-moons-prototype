@@ -1,0 +1,35 @@
+CATEGORIA;ID;NOME / PROPRIEDADE;PARAMETRO_1;PARAMETRO_2;PARAMETRO_3;PARAMETRO_4;PARAMETRO_5;OBSERVACOES
+Formulas;FRM-01;XP Necessario;XP = 100 * (Nivel ^ 1.5);;;;;Curva de nivelamento
+Formulas;FRM-02;Decaimento Fome;1 pt / 10 min ATS;;;;;Consumo passivo
+Formulas;FRM-03;Energia Efetiva;100 - Fadiga Acumulada;;;;;Teto maximo dinamico
+Formulas;FRM-04;Preco Faccao;Base * (1 - Reputacao/200);;;;;Taxa ou desconto
+Atributos;ATR-01;Vida (HP);Min: 0;Max: 100;Taxa: 0;;;0 HP gera desmaio
+Atributos;ATR-02;Energia;Min: 0;Max: 100;Taxa: -1 a -5 / Acao;;;Limitada pela Fadiga
+Atributos;ATR-03;Fome;Min: 0;Max: 100;Taxa: -1 / 10 min ATS;;;< 20 consome Energia x2
+Atributos;ATR-04;Fadiga Leve;Min: 0;Max: 50;Efeito: Reduz Teto 1:1;;;Acumula ao zerar energia
+Atributos;ATR-05;Fadiga Critica;Min: 0;Max: 50;Efeito: Reduz Teto 1:1.5;;;Acumula apos 24h sem dormir
+Personagens;CHR-001;Minerador;HP: 100;Energia: 120;Bonus: +10% Efic. Picareta;Profissao: Ferreiro;;Perfil Focado em Coleta
+Personagens;CHR-002;Lenhador;HP: 100;Energia: 110;Bonus: -15% Custo Machado;Profissao: Carpinteiro;;Perfil Focado em Madeira
+Personagens;CHR-003;Comerciante;HP: 80;Energia: 100;Bonus: +10 Reputacao Inicial;Profissao: Mercador;;Perfil Focado em Economia
+Ferramentas;WPN-001;Picareta de Pedra;Durabilidade: 50;Energia: 5;Mult Coleta: 1.0x;Requisito: Nivel 1;;Ferramenta Basica
+Ferramentas;WPN-002;Picareta de Ferro;Durabilidade: 150;Energia: 3;Mult Coleta: 1.8x;Requisito: Nivel 15;;Ferramenta Intermediaria
+Ferramentas;WPN-003;Machado de Madeira;Durabilidade: 40;Energia: 5;Mult Coleta: 1.0x;Requisito: Nivel 1;;Ferramenta Basica
+Ferramentas;WPN-004;Machado de Aco;Durabilidade: 120;Energia: 3;Mult Coleta: 2.0x;Requisito: Nivel 20;;Ferramenta Avancada
+Itens;ITM-001;Minerio de Ferro;Tipo: Insumo;Max Stack: 99;Preco Base: 5;Efeito: N/A;;Item Coletavel
+Itens;ITM-002;Lingote de Ferro;Tipo: Processado;Max Stack: 50;Preco Base: 18;Efeito: N/A;;Item Refinado
+Itens;ITM-003;Madeira Bruta;Tipo: Insumo;Max Stack: 99;Preco Base: 3;Efeito: N/A;;Item Coletavel
+Itens;ITM-004;Pao Artesanal;Tipo: Consumivel;Max Stack: 20;Preco Base: 12;Efeito: +30 Fome, +10 Energia;;Comida Basica
+Itens;ITM-005;Tonico de Ervas;Tipo: Consumivel;Max Stack: 10;Preco Base: 45;Efeito: -20 Fadiga Leve;;Medicamento
+Habilidades;SKL-001;Ferreiro;Acao: Fundir Lingote;XP: 15;Tempo: 20 min ATS;Tipo: Passiva;;Bancada Alto-Forno
+Habilidades;SKL-002;Ferreiro;Acao: Forjar Ferramenta;XP: 45;Tempo: 15 min ATS;Tipo: Ativa;;Bancada Bigorna
+Habilidades;SKL-003;Carpinteiro;Acao: Processar Tabua;XP: 10;Tempo: 10 min ATS;Tipo: Ativa;;Bancada Morsa
+Economia;ECO-001;Guilda dos Mineradores;Rep Min: -100;Rep Max: +100;Mult Compra: 1.50x a 0.50x;Mult Venda: 0.50x a 1.25x;;Faccao de Coleta
+Economia;ECO-002;Sindicato dos Mercadores;Rep Min: -100;Rep Max: +100;Mult Compra: 1.30x a 0.70x;Mult Venda: 0.60x a 1.40x;;Faccao Comercial
+Loot;LOT-001;Veio de Ferro;Item Drop: ITM-001;Qtd: 2 a 4;Respawn: 72h ATS (3 dias);;;Node do Mundo
+Loot;LOT-002;Arvore Adulta;Item Drop: ITM-003;Qtd: 3 a 5;Respawn: 48h ATS (2 dias);;;Node do Mundo
+Progressao;LVL-01;Nivel 1;XP Requerido: 0;Desbloqueios: Receitas Basicas;;;;Nivel Inicial
+Progressao;LVL-05;Nivel 5;XP Requerido: 1118;Desbloqueios: Alto-Forno (Passivo);;;;Desbloqueio Medio
+Progressao;LVL-10;Nivel 10;XP Requerido: 3162;Desbloqueios: Receitas de Ferro;;;;Desbloqueio Intermediario
+Progressao;LVL-20;Nivel 20;XP Requerido: 8944;Desbloqueios: Ferramentas Aco / -5% Desconto;;;;Nivel Avancado
+Inimigos;ENM-001;Lobo Esfomeado;HP: 40;Dano: 8;Defesa: 1;Velocidade: 110;XP Drop: 12;Loot: Couro Cru (100%)
+Inimigos;ENM-002;Salteador da Noite;HP: 75;Dano: 14;Defesa: 3;Velocidade: 90;XP Drop: 30;Loot: Moedas (10-25)

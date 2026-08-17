@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="QuestData" format=3 uid="uid://cs2wer5kjprvr"]
+
+[ext_resource type="Resource" uid="uid://8xx6uyjayro2" path="res://data/items/ferramenta_cobre.tres" id="1_78p1i"]
+[ext_resource type="Script" uid="uid://b4bs7ciilm1d7" path="res://src/resources/quest_data.gd" id="1_uu1ox"]
+
+[resource]
+script = ExtResource("1_uu1ox")
+title = "A Primeira Ferramenta"
+description = "Entregue 1 Ferramenta de Cobre para ajudar a comunidade local."
+required_item = ExtResource("1_78p1i")
+metadata/_custom_type_script = "uid://b4bs7ciilm1d7"

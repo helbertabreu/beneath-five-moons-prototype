@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://cuenh7dcb6xig"]
+
+[ext_resource type="Texture2D" uid="uid://c5baptla3e6ri" path="res://icon.svg" id="1_4m8ck"]
+[ext_resource type="Script" uid="uid://dke2ayt1uuy6f" path="res://src/entities/player/player_controller.gd" id="1_vt6n5"]
+[ext_resource type="Script" uid="uid://70rju4fhd72m" path="res://src/components/survival_component.gd" id="3_muk8e"]
+[ext_resource type="Script" uid="uid://ny6q34iim7cp" path="res://src/components/inventory_component.gd" id="4_wrxq6"]
+[ext_resource type="Script" uid="uid://dtkyleyhebdqs" path="res://src/components/profession_component.gd" id="5_ketdh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4m8ck"]
+size = Vector2(128, 128)
+
+[node name="Player" type="CharacterBody2D" unique_id=991202017 groups=["# res://src/ui/hud/minimap.gdclass_name Minimapextends SubViewportContainer@onready var sub_viewport: SubViewport = $SubViewport@onready var minimap_camera: Camera2D = $SubViewport/MinimapCameravar target_player: Node2D = nullfunc _ready() -> void:# Ajusta o tamanho da viewport para casar com o containersub_viewport.size = Vector2i(150, 150)func _process(_delta: float) -> void:if target_player == null:_find_player()return# A câmera do minimapa segue suavemente a posição global do jogadorminimap_camera.global_position = target_player.global_positionfunc _find_player() -> void:var players = get_tree().get_nodes_in_group(\"player\")if not players.is_empty():target_player = players[0] as Node2D", "player"]]
+script = ExtResource("1_vt6n5")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=82106640]
+texture = ExtResource("1_4m8ck")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=297713687]
+shape = SubResource("RectangleShape2D_4m8ck")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1146577324]
+
+[node name="SurvivalComponent" type="Node" parent="." unique_id=214291637]
+script = ExtResource("3_muk8e")
+
+[node name="InventoryComponent" type="Node" parent="." unique_id=2069733958]
+script = ExtResource("4_wrxq6")
+
+[node name="ProfessionComponent" type="Node" parent="." unique_id=537562325]
+script = ExtResource("5_ketdh")
+
+[node name="MinimapIcon" type="ColorRect" parent="." unique_id=442417725]
+visibility_layer = 2
+custom_minimum_size = Vector2(8, 8)
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(1, 0.03529412, 0.023529412, 1)

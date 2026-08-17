@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://107fgjtokgu8"]
+
+[ext_resource type="Script" uid="uid://duaghd2tyenpt" path="res://src/ui/crafting_window.gd" id="1_yit6r"]
+
+[node name="CraftingWindow" type="PanelContainer" unique_id=746096013]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_yit6r")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=949670525]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="VBoxContainer" unique_id=1485700914]
+layout_mode = 2
+text = "Bancada de Trabalho"
+
+[node name="RecipeList" type="ItemList" parent="VBoxContainer" unique_id=1593278257]
+layout_mode = 2
+
+[node name="CraftButton" type="Button" parent="VBoxContainer" unique_id=1356009878]
+layout_mode = 2
+text = "Forjar / Processar"
+
+[node name="CloseButton" type="Button" parent="VBoxContainer" unique_id=1506664123]
+layout_mode = 2
+text = "Fechar"

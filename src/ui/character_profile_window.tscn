@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://d3p4xbl1vtrol"]
+
+[ext_resource type="Script" uid="uid://b2a8poun5o3l6" path="res://src/ui/character_profile_window.gd" id="1_bcdmy"]
+
+[node name="CharacterProfileWindow" type="PanelContainer" unique_id=1062233410]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_bcdmy")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1980482009]
+layout_mode = 2
+
+[node name="CharacterProfileWindow" type="Label" parent="VBoxContainer" unique_id=32450694]
+layout_mode = 2
+text = "Perfil do Jogador"
+
+[node name="ProfessionSection" type="VBoxContainer" parent="VBoxContainer" unique_id=1213687782]
+layout_mode = 2
+
+[node name="ProfessionName" type="Label" parent="VBoxContainer/ProfessionSection" unique_id=926255707]
+layout_mode = 2
+
+[node name="XPBar" type="ProgressBar" parent="VBoxContainer/ProfessionSection" unique_id=502202590]
+layout_mode = 2
+
+[node name="XPText" type="Label" parent="VBoxContainer/ProfessionSection" unique_id=1203352099]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer" unique_id=73230201]
+layout_mode = 2
+
+[node name="SurvivalSection" type="VBoxContainer" parent="VBoxContainer" unique_id=230971461]
+layout_mode = 2
+
+[node name="HungerLabel" type="Label" parent="VBoxContainer/SurvivalSection" unique_id=1954706124]
+layout_mode = 2
+
+[node name="EnergyLabel" type="Label" parent="VBoxContainer/SurvivalSection" unique_id=1149315105]
+layout_mode = 2
+
+[node name="FatigueLabel" type="Label" parent="VBoxContainer/SurvivalSection" unique_id=742278428]
+layout_mode = 2
+
+[node name="CloseButton" type="Button" parent="VBoxContainer" unique_id=146979377]
+layout_mode = 2
+text = "Fechar"

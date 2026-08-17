@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://c15mal3ygbfsi"]
+
+[ext_resource type="Script" uid="uid://buyls7obe064x" path="res://src/ui/vendor_window.gd" id="1_ird5q"]
+
+[node name="VendorWindow" type="PanelContainer" unique_id=1895477175]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_ird5q")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1702829338]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="VBoxContainer" unique_id=200097753]
+layout_mode = 2
+text = "Marcão da Mercearia
+"
+
+[node name="ReputationLabel" type="Label" parent="VBoxContainer" unique_id=64753830]
+layout_mode = 2
+
+[node name="ModeContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=46534316]
+layout_mode = 2
+
+[node name="BuyModeButton" type="Button" parent="VBoxContainer/ModeContainer" unique_id=598225463]
+layout_mode = 2
+text = "Comprar"
+
+[node name="SellModeButton" type="Button" parent="VBoxContainer/ModeContainer" unique_id=1290424537]
+layout_mode = 2
+text = "Vender"
+
+[node name="ItemList" type="ItemList" parent="VBoxContainer" unique_id=1338991801]
+layout_mode = 2
+
+[node name="ActionButton" type="Button" parent="VBoxContainer" unique_id=1655238244]
+layout_mode = 2
+text = "Comprar / Vender"
+
+[node name="CloseButton" type="Button" parent="VBoxContainer" unique_id=1726377513]
+layout_mode = 2
+text = "Fechar"
