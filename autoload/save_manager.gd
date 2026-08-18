@@ -137,25 +137,43 @@ func load_game() -> bool:
 	if hud and hud.has_method("_on_time_advanced"):
 		hud._on_time_advanced(0, TimeManager.get_current_hour(), TimeManager.get_current_minute())
 	
-	# --- CORREÇÃO DO BUG DE MOVIMENTAÇÃO / TRAVA DE INPUT ---
+	# --- CORREÇÃO BUG-002: DESTRAVAMENTO COMPLETO DE INPUT E UI ---
 	_restore_player_input_and_focus(player)
 	
 	return true
 
-## Libera as travas de input do PlayerController e devolve o foco para a Viewport
+## Libera as travas de input do PlayerController, fecha todas as janelas e devolve o foco para a Viewport
 func _restore_player_input_and_focus(player: PlayerController) -> void:
 	get_tree().paused = false
 	
+	# 1. Oculta forçadamente todas as janelas de interface da HUD
+	var hud = get_tree().get_first_node_in_group("hud")
+	if hud:
+		if "inventory_panel" in hud and hud.inventory_panel:
+			hud.inventory_panel.hide()
+		if "crafting_window" in hud and hud.crafting_window:
+			hud.crafting_window.hide()
+		if "vendor_window" in hud and hud.vendor_window:
+			hud.vendor_window.hide()
+		if "quest_log_window" in hud and hud.quest_log_window:
+			hud.quest_log_window.hide()
+			
+		var profile_node = hud.get_node_or_null("CharacterProfileWindow")
+		if profile_node != null:
+			profile_node.hide()
+		elif "character_profile_window" in hud and hud.character_profile_window:
+			hud.character_profile_window.hide()
+	
+	# 2. Destrava o PlayerController diretamente
 	if player != null:
-		# Chama o método de destravamento direto no script do jogador
+		player.is_input_disabled = false
+		player.velocity = Vector2.ZERO
+		player.process_mode = Node.PROCESS_MODE_INHERIT
+		
 		if player.has_method("force_unlock_input"):
 			player.force_unlock_input()
-		else:
-			player.set("is_input_disabled", false)
-			player.set("can_move", true)
-			player.process_mode = Node.PROCESS_MODE_INHERIT
 
-	# Limpa o foco da UI para que o teclado volte para as Ações (Input Map)
+	# 3. Limpa o foco ativo de componentes de UI
 	var viewport = get_tree().root.get_viewport()
 	if viewport:
 		var gui_focus = viewport.gui_get_focus_owner()

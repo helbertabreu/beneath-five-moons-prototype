@@ -52,6 +52,10 @@ func _on_floating_text_requested(text: String, spawn_pos: Vector2, color: Color)
 		
 	var ft_instance = floating_text_scene.instantiate() as FloatingText
 	if ft_instance:
+		# Atribui a camada de visibilidade 2 (Bit 2) para o texto flutuante
+		# A câmera principal lê todas as camadas, mas o Minimapa (Mascara 1) irá ignorá-lo
+		ft_instance.visibility_layer = 2
+		
 		# Adiciona o texto à cena principal
 		get_tree().current_scene.add_child(ft_instance)
 		ft_instance.setup(text, spawn_pos, color)

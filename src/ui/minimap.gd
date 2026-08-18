@@ -1,4 +1,4 @@
-# res://src/ui/hud/minimap.gd
+# res://src/ui/minimap.gd
 class_name Minimap
 extends SubViewportContainer
 
@@ -11,12 +11,11 @@ func _ready() -> void:
 	sub_viewport.gui_disable_input = true
 	sub_viewport.size = Vector2i(150, 150)
 	
-	# No Godot 4, canvas_cull_mask fica no SubViewport
-	# Valor 1 = Desenha a Camada 1 do Canvas (Mundo/Cenário)
-	# Valor 3 (1 + 2) = Desenha Camada 1 + Camada 2 (Ícones do Minimapa)
+	# Define a máscara de renderização do minimapa estritamente para a Camada 1 (Bit 1)
+	# Ignora Camada 2 onde os textos e elementos visuais de UI do mundo residem
 	sub_viewport.canvas_cull_mask = 1
 	
-	# Ajusta o Zoom da câmera para dar mais visão do entorno
+	# Ajusta o Zoom da câmera para ter visão ampla do cenário
 	minimap_camera.zoom = Vector2(0.5, 0.5)
 	
 	call_deferred("_setup_world")
