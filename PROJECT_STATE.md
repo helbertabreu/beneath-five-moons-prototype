@@ -1,33 +1,29 @@
 # PROJECT_STATE.md
 
 > Documento de estado atual do projeto Godot 4.
-> Atualizado após a conclusão da Sprint 1 com testes automatizados.
+> Atualizado após o início da Sprint 2 e implementação do Lobo Esfomeado.
 
 ---
 
 ## 1. IDENTIFICAÇÃO DO PROJETO
 
 - **Nome do projeto:** Beneath Five Moons
-- **Versão atual:** 0.1.6-alpha
+- **Versão atual:** 0.2.0-alpha
 - **Versão da Godot:** Godot 4.x (4.7 GL Compatibility)
-- **Status geral:** PROTÓTIPO FUNCIONAL / INFRAESTRUTURA TESTADA
+- **Status geral:** PROTÓTIPO FUNCIONAL / INIMIGOS E COMBATE
 - **Última atualização:** 17/08/2026
 
 ---
 
 ## 2. ESTADO DA SPRINT
 
-- **Sprint atual:** Sprint 1 — Reputação, Atalhos, ATS, Combate e Testes Automatizados
-- **Status:** CONCLUÍDA
+- **Sprint atual:** Sprint 2 — Inimigos, IA e Loot de Combate
+- **Status:** EM ANDAMENTO
 
 ### Progresso
-- [x] TASK-001: Refatoração do `ReputationManager` (0 - 10.000) [CONCLUÍDO].
-- [x] BUG-003: Removida poluição de texto no Minimapa [CONCLUÍDO].
-- [x] TASK-002: Padronização de atalhos (E, I/TAB, J, C, F5, F9) e isolamento de comandos de debug [CONCLUÍDO].
-- [x] BUG-004: Corrigido laço de Fast-Forward no `TimeManager` para múltiplos dias [CONCLUÍDO].
-- [x] TASK-003: Implementados `HealthComponent`, `HurtboxComponent` e `HitboxComponent` [CONCLUÍDO].
-- [x] TASK-004: Implementada a Suíte de Testes Automatizados da Sprint 1 em `tests/test_sprint1_combat_and_systems.gd` [CONCLUÍDO].
-- [ ] BUG-002: Investigar trava de movimentação/UI após carregar o jogo (PAUSADO / BACKLOG).
+- [x] TASK-201: Implementado o Inimigo Lobo Esfomeado (`ENM-001`) com Máquina de Estados (IDLE, PATROL, CHASE, ATTACK, DEAD) [CONCLUÍDO].
+- [x] TASK-203: Implementada a Suíte de Testes Automatizados da Sprint 2 em `tests/test_sprint2_enemy_ai.gd` [CONCLUÍDO].
+- [ ] TASK-202: Implementar Sistema de Tabela de Drop/Loot de Inimigos ao morrer.
 ---
 
 ## REGRA PARA O GEMINI
