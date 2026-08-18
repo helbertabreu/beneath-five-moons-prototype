@@ -106,6 +106,21 @@ O `SaveManager` salva todas as seções do estado do jogo no arquivo `user://sav
 ### Consequências
 - Inspeção transparente dos dados salvos durante o desenvolvimento.
 
+## ADR-004 — Adoção Obrigatória de Testes Automatizados por Sprint
+
+**Data:** 17/08/2026  
+**Status:** ATIVA
+
+### Contexto
+Para evitar regressões em sistemas críticos de matemática (XP, ATS, Reputação) e mecânicas de combate à medida que o projeto cresce.
+
+### Decisão
+Todas as Sprints devem incluir obrigatoriamente um script de teste automatizado desacoplado na pasta `res://tests/` cobrindo as funcionalidades entregues.
+
+### Consequências
+- Validação rápida de regras de negócio sem necessidade de simulação manual no editor.
+- Garantia de estabilidade antes da entrega de novas Sprints.
+
 ---
 
 # REGRAS DO DOCUMENTO
