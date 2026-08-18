@@ -1,182 +1,44 @@
 # PROJECT_STATE.md
 
 > Documento de estado atual do projeto Godot 4.
-> Este arquivo deve refletir o estado REAL do projeto e ser atualizado ao final de Sprints, mudanças arquiteturais relevantes e correções importantes.
+> Atualizado após a conclusão do Teste da TASK-001 e reporte de novos bugs.
 
 ---
 
 ## 1. IDENTIFICAÇÃO DO PROJETO
 
-- **Nome do projeto:** [PREENCHER]
-- **Versão atual:** [PREENCHER]
-- **Versão da Godot:** [PREENCHER]
-- **Plataformas alvo:** [PREENCHER]
-- **Gênero:** [PREENCHER]
-- **Perspectiva:** [PREENCHER]
-- **Status geral:** AUDITORIA / PROTÓTIPO / DESENVOLVIMENTO / ALPHA / BETA / POLISH
-- **Última atualização:** [PREENCHER]
+- **Nome do projeto:** Beneath Five Moons
+- **Versão atual:** 0.1.1-alpha
+- **Versão da Godot:** Godot 4.x (4.7 GL Compatibility)
+- **Plataformas alvo:** PC (Windows, Linux, macOS)
+- **Gênero:** RPG Sandbox 2D / Survival Leve / Simulação Social
+- **Perspectiva:** 2D Isométrica
+- **Status geral:** PROTÓTIPO FUNCIONAL / CORREÇÃO DE BUGS (QA)
+- **Última atualização:** 17/08/2026
 
 ---
 
-## 2. VISÃO GERAL
+## 2. ESTADO DA SPRINT
 
-### Descrição
-
-[PREENCHER]
-
-### Core Loop
-
-```text
-[PREENCHER]
-```
-
-### Objetivo atual do projeto
-
-[PREENCHER]
-
----
-
-## 3. ESTADO DA SPRINT
-
-- **Sprint atual:** [PREENCHER]
-- **Objetivo:** [PREENCHER]
-- **Início:** [PREENCHER]
-- **Previsão de conclusão:** [PREENCHER]
-- **Status:** PLANEJAMENTO / EM ANDAMENTO / BLOQUEADA / QA / CONCLUÍDA
+- **Sprint atual:** Sprint 1 — Ajuste de Reputação, Fixes de Save/UI e Base de Combate
+- **Status:** EM ANDAMENTO
 
 ### Progresso
-
-- [ ] Tarefa 1
-- [ ] Tarefa 2
-- [ ] Tarefa 3
+- [x] TASK-001: Refatoração do `ReputationManager` e `FactionData` para a escala 0 - 10.000 (VALIDADO VIA TESTE).
+- [ ] BUG-001: Isolar e organizar comandos de debug do `PlayerController`.
+- [ ] BUG-002: Corrigir trava de movimentação e UI ao carregar o jogo (`save_manager.gd`).
+- [ ] BUG-003: Corrigir visibilidade de textos e labels dentro da SubViewport do Minimapa (`minimap.gd`).
+- [ ] TASK-003: Criar `HealthComponent` e infraestrutura de Dano para Combate.
 
 ---
 
-## 4. SISTEMAS DO JOGO
+## 3. BUGS CONHECIDOS
 
-| Sistema | Estado | Qualidade | Localização | Observações |
+| ID | Bug | Severidade | Localização | Status |
 |---|---|---|---|---|
-| Player | AUSENTE | — | — | |
-| Movimento | AUSENTE | — | — | |
-| Combate | AUSENTE | — | — | |
-| Inimigos / IA | AUSENTE | — | — | |
-| Inventário | AUSENTE | — | — | |
-| Progressão | AUSENTE | — | — | |
-| UI | AUSENTE | — | — | |
-| Áudio | AUSENTE | — | — | |
-| Save/Load | AUSENTE | — | — | |
-| Settings | AUSENTE | — | — | |
-
-### Estados possíveis
-
-- AUSENTE
-- PROTÓTIPO
-- PARCIAL
-- FUNCIONAL
-- COMPLETO
-- COM BUG
-- PRECISA REFACTOR
-- BLOQUEADO
-
----
-
-## 5. ARQUITETURA ATUAL
-
-### Estrutura principal
-
-```text
-res://
-├── scenes/
-├── scripts/
-├── resources/
-├── assets/
-└── tests/
-```
-
-> Substitua pela estrutura real do projeto após a auditoria.
-
-### Autoloads
-
-| Autoload | Função | Status |
-|---|---|---|
-| [PREENCHER] | [PREENCHER] | [PREENCHER] |
-
-### Principais componentes
-
-| Componente | Responsabilidade | Utilizado por |
-|---|---|---|
-| [PREENCHER] | [PREENCHER] | [PREENCHER] |
-
----
-
-## 6. GDD × IMPLEMENTAÇÃO
-
-| Requisito do GDD | Implementado? | Estado | Localização | Ação |
-|---|---|---|---|---|
-| [PREENCHER] | [SIM/NÃO/PARCIAL] | [PREENCHER] | [PREENCHER] | [PREENCHER] |
-
----
-
-## 7. BUGS CONHECIDOS
-
-| ID | Bug | Severidade | Reprodução | Status |
-|---|---|---|---|---|
-| BUG-001 | [PREENCHER] | [CRÍTICA/ALTA/MÉDIA/BAIXA] | [PREENCHER] | TODO |
-
----
-
-## 8. DÍVIDA TÉCNICA
-
-| ID | Problema | Severidade | Impacto | Recomendação | Status |
-|---|---|---|---|---|---|
-| TECH-001 | [PREENCHER] | [PREENCHER] | [PREENCHER] | [PREENCHER] | TODO |
-
----
-
-## 9. RISCOS TÉCNICOS
-
-| ID | Risco | Probabilidade | Impacto | Mitigação | Status |
-|---|---|---|---|---|---|
-| RISK-001 | [PREENCHER] | [BAIXA/MÉDIA/ALTA] | [BAIXO/MÉDIO/ALTO] | [PREENCHER] | ABERTO |
-
----
-
-## 10. DECISÕES IMPORTANTES
-
-Consulte `TECHNICAL_DECISIONS.md`.
-
-| ID | Decisão | Data | Status |
-|---|---|---|---|
-| ADR-001 | [PREENCHER] | [DATA] | ATIVA |
-
----
-
-## 11. PRÓXIMAS TAREFAS
-
-1. [PREENCHER]
-2. [PREENCHER]
-3. [PREENCHER]
-
----
-
-## 12. ÚLTIMA SINCRONIZAÇÃO
-
-### O que foi concluído
-
-- [PREENCHER]
-
-### O que está em andamento
-
-- [PREENCHER]
-
-### O que está bloqueado
-
-- [PREENCHER]
-
-### Próximo passo recomendado
-
-[PREENCHER]
-
+| BUG-001 | Teclas de debug ativas no `PlayerController` em jogo normal | BAIXA | `src/entities/player/player_controller.gd` | TODO |
+| BUG-002 | Personagem não se movimenta e não abre UI após efetuar LOAD | ALTA | `autoload/save_manager.gd` / `player_controller.gd` | TODO |
+| BUG-003 | Textos flutuantes e rótulos do mapa vazando para o Minimapa | MÉDIA | `src/ui/minimap.gd` | TODO |
 ---
 
 ## REGRA PARA O GEMINI

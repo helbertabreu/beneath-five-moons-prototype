@@ -1,11 +1,10 @@
 # BACKLOG.md
 
-> Backlog técnico e de produção do projeto.
-> O backlog deve representar o trabalho real necessário para levar o projeto ao estado definido pelo GDD.
+> Backlog técnico e de produção do projeto Beneath Five Moons.
 
 ---
 
-## PRIORIDADES
+# 1. SPRINT ATUAL (SPRINT 1)
 
 - **P0 — BLOQUEADOR:** impede o desenvolvimento ou execução.
 - **P1 — CORE:** essencial para o gameplay/MVP.
@@ -13,85 +12,13 @@
 - **P3 — POLISH:** qualidade, refinamento e melhorias.
 - **P4 — FUTURO:** fora do escopo atual/MVP.
 
-## STATUS
-
-- TODO
-- IN PROGRESS
-- BLOCKED
-- REVIEW
-- DONE
-- CANCELLED
-
----
-
-# 1. SPRINT ATUAL
-
-**Sprint:** [PREENCHER]
-
-**Objetivo:** [PREENCHER]
-
-| ID | Tarefa | Tipo | Prioridade | Sprint | Dependência | Status | Critério de aceitação |
+| ID | Tarefa / Bug | Tipo | Prioridade | Sprint | Dependência | Status | Critério de Aceitação |
 |---|---|---|---|---|---|---|---|
-| TASK-001 | [PREENCHER] | Gameplay | P1 | 1 | — | TODO | [PREENCHER] |
-| TASK-002 | [PREENCHER] | Technical | P1 | 1 | TASK-001 | TODO | [PREENCHER] |
-
----
-
-# 2. BACKLOG DO MVP
-
-| ID | Tarefa | Tipo | Prioridade | Dependência | Status |
-|---|---|---|---|---|---|
-| TASK-101 | [PREENCHER] | Gameplay | P1 | — | TODO |
-| TASK-102 | [PREENCHER] | UI | P1 | — | TODO |
-| TASK-103 | [PREENCHER] | Systems | P1 | — | TODO |
-
----
-
-# 3. BUGS
-
-| ID | Bug | Severidade | Prioridade | Sprint | Status |
-|---|---|---|---|---|---|
-| BUG-001 | [PREENCHER] | ALTA | P1 | [PREENCHER] | TODO |
-
----
-
-# 4. DÍVIDA TÉCNICA
-
-| ID | Problema | Severidade | Prioridade | Impacto | Status |
-|---|---|---|---|---|---|
-| TECH-001 | [PREENCHER] | MÉDIA | P2 | [PREENCHER] | TODO |
-
----
-
-# 5. POLISH
-
-| ID | Melhoria | Prioridade | Sistema | Status |
-|---|---|---|---|---|
-| POLISH-001 | [PREENCHER] | P3 | [PREENCHER] | TODO |
-
----
-
-# 6. FUTURO / NICE TO HAVE
-
-| ID | Funcionalidade | Prioridade | Motivo para não implementar agora | Status |
-|---|---|---|---|---|
-| FUT-001 | [PREENCHER] | P4 | [PREENCHER] | TODO |
-
----
-
-# 7. DEFINITION OF DONE
-
-Uma tarefa somente pode ser marcada como `DONE` quando:
-
-- [ ] implementação concluída;
-- [ ] integração concluída;
-- [ ] comportamento esperado validado;
-- [ ] edge cases considerados;
-- [ ] bugs relevantes corrigidos;
-- [ ] testes realizados;
-- [ ] critérios de aceitação cumpridos;
-- [ ] documentação atualizada quando necessário;
-- [ ] nenhuma regressão conhecida introduzida.
+| TASK-001 | Refatorar `ReputationManager` (0 - 10.000) | Technical | P1 | 1 | — | **DONE** | Validado com sucesso via suíte de testes. |
+| BUG-002 | Fix Trava do Jogador / UI após Load | Bug | P0 | 1 | — | TODO | Ao carregar o jogo, o personagem se movimenta normalmente e os atalhos de janela (I, J, C) funcionam imediatamente. |
+| BUG-003 | Fix Textos e Labels visíveis no Minimapa | Bug | P2 | 1 | — | TODO | Apenas o terreno/entidades do minimapa aparecem na SubViewport, sem textos flutuantes. |
+| TASK-002 | Isolar atalhos de debug do `PlayerController` | Technical | P2 | 1 | — | TODO | Comandos de teste movidos para condicional de debug. |
+| TASK-003 | Criar `HealthComponent` para Combate | Gameplay | P1 | 1 | — | TODO | Componente reutilizável de vida e dano. |
 
 ---
 
