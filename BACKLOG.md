@@ -4,13 +4,24 @@
 
 ---
 
-# 1. SPRINT ATUAL (SPRINT 2)
+# 1. SPRINT ATUAL (SPRINT 3) — CONCLUÍDA
 
 | ID | Tarefa | Tipo | Prioridade | Sprint | Status |
 |---|---|---|---|---|---|
-| TASK-201 | Implementar Lobo Esfomeado (`ENM-001`) com IA Melee | Gameplay | P1 | 2 | **DONE** |
-| TASK-203 | Criar Suíte de Testes Automatizados da Sprint 2 | Testing | P1 | 2 | **DONE** |
-| TASK-202 | Implementar Tabela de Drop/Loot de Inimigos ao morrer | Gameplay | P1 | 2 | **TODO** |
+| TASK-301 | Implementar Salteador da Noite (`ENM-002`) | Gameplay | P1 | 3 | **DONE** |
+| TASK-302 | Flutuação de Oferta e Demanda por escassez nos NPCs | Gameplay | P2 | 3 | **DONE** |
+| TASK-303 | Criar Suíte de Testes Automatizados da Sprint 3 | Testing | P1 | 3 | **DONE** |
+
+---
+
+# 2. SPRINT 4 — GOVERNAANÇA DO VILAREJO (END-GAME DO MVP)
+
+| ID | Tarefa | Tipo | Prioridade | Dependência | Status |
+|---|---|---|---|---|---|
+| TASK-401 | Implementar Painel da Mesa do Governador na Prefeitura | Gameplay | P1 | TASK-001 | TODO |
+| TASK-402 | Implementar Cofre Público e Alíquotas de Imposto (0% a 25%) | Gameplay | P1 | TASK-401 | TODO |
+| TASK-403 | Implementar Indicadores do Vilarejo (Prosperidade, Segurança, Aprovação) | Gameplay | P1 | TASK-401 | TODO |
+| TASK-404 | Criar Suíte de Testes Automatizados da Sprint 4 | Testing | P1 | TASK-401 | TODO |
 
 ---
 

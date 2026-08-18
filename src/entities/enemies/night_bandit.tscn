@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://bnmd5tmub15o7"]
+
+[ext_resource type="Script" uid="uid://hao1ov7trhay" path="res://src/entities/enemies/night_bandit.gd" id="1_bq6tn"]
+[ext_resource type="Script" uid="uid://dwr4m3ti7w5cu" path="res://src/components/health_component.gd" id="2_bm74j"]
+[ext_resource type="Script" uid="uid://cakq88mv403x2" path="res://src/components/hitbox_component.gd" id="3_kvpmq"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_u0ya7"]
+radius = 14.0
+height = 36.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dtglo"]
+radius = 20.0
+height = 48.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_u0ya7"]
+radius = 30.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dtglo"]
+radius = 220.0
+
+[node name="NightBandit" type="CharacterBody2D" unique_id=2106968416]
+script = ExtResource("1_bq6tn")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=224580019]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1300585374]
+shape = SubResource("CapsuleShape2D_u0ya7")
+
+[node name="HealthComponent" type="Node" parent="." unique_id=1411601754]
+script = ExtResource("2_bm74j")
+max_health = 60.0
+
+[node name="HurtboxComponent" type="Area2D" parent="." unique_id=520986634]
+collision_layer = 4
+
+[node name="HurtboxCollision" type="CollisionShape2D" parent="HurtboxComponent" unique_id=2101864087]
+shape = SubResource("CapsuleShape2D_dtglo")
+
+[node name="HitboxComponent" type="Area2D" parent="." unique_id=2004153026]
+collision_mask = 4
+script = ExtResource("3_kvpmq")
+damage = 15.0
+
+[node name="HitboxCollision" type="CollisionShape2D" parent="HitboxComponent" unique_id=907779202]
+shape = SubResource("CircleShape2D_u0ya7")
+
+[node name="DetectionArea" type="Area2D" parent="." unique_id=421278791]
+
+[node name="DetectionCollision" type="CollisionShape2D" parent="DetectionArea" unique_id=2077783380]
+shape = SubResource("CircleShape2D_dtglo")

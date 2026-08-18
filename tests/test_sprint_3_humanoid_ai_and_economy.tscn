@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dtgq5m0m6h1et"]
+
+[ext_resource type="Script" uid="uid://bm5scgvo72yv" path="res://tests/test_sprint3_humanoid_ai_and_economy.gd" id="1_eiu2a"]
+
+[node name="test_sprint3_humanoid_ai_and_economy" type="Node" unique_id=2143658970]
+script = ExtResource("1_eiu2a")

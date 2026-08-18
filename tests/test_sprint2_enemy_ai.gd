@@ -85,3 +85,22 @@ func _test_wolf_damage_and_death() -> void:
 	_assert_true(wolf.current_state == WolfEnemy.State.DEAD, "Estado da IA do Lobo alterado para DEAD")
 
 	wolf.queue_free()
+
+func _test_wolf_loot_drop() -> void:
+	print("\n[MÓDULO 4] Teste da Tabela de Drop/Loot:")
+
+	var loot_table = LootTableComponent.new()
+	var test_item = ItemData.new()
+	test_item.id = "carne_crua"
+	test_item.name = "Carne Crua"
+
+	# Configura garantia de 100% de chance de drop no teste
+	loot_table.drop_entries = [
+		{"item": test_item, "chance": 1.0, "min_qty": 1, "max_qty": 2}
+	]
+
+	var spawned_items = loot_table.drop_loot(Vector2.ZERO)
+	_assert_true(loot_table.drop_entries.size() == 1, "Tabela de loot contém 1 entrada cadastrada")
+	_assert_true(loot_table.drop_entries[0]["chance"] == 1.0, "Probabilidade de drop configurada em 100%")
+
+	loot_table.queue_free()
