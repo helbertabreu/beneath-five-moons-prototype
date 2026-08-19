@@ -1,27 +1,61 @@
-# BACKLOG.md
+# BACKLOG.md — Beneath Five Moons
 
-> Backlog técnico e de produção do projeto Beneath Five Moons.
-
----
-
-# 1. SPRINT ATUAL (SPRINT 3) — CONCLUÍDA
-
-| ID | Tarefa | Tipo | Prioridade | Sprint | Status |
-|---|---|---|---|---|---|
-| TASK-301 | Implementar Salteador da Noite (`ENM-002`) | Gameplay | P1 | 3 | **DONE** |
-| TASK-302 | Flutuação de Oferta e Demanda por escassez nos NPCs | Gameplay | P2 | 3 | **DONE** |
-| TASK-303 | Criar Suíte de Testes Automatizados da Sprint 3 | Testing | P1 | 3 | **DONE** |
+> Documento de controle de tarefas, débitos técnicos e funcionalidades do projeto.
+> Organizado por prioridades e domínios técnicos.
 
 ---
 
-# 2. SPRINT 4 — GOVERNAANÇA DO VILAREJO (END-GAME DO MVP)
+## 1. TAREFAS CRÍTICAS (P0 — BLOQUEANTES DO MVP)
 
-| ID | Tarefa | Tipo | Prioridade | Dependência | Status |
-|---|---|---|---|---|---|
-| TASK-401 | Implementar Painel da Mesa do Governador na Prefeitura | Gameplay | P1 | TASK-001 | TODO |
-| TASK-402 | Implementar Cofre Público e Alíquotas de Imposto (0% a 25%) | Gameplay | P1 | TASK-401 | TODO |
-| TASK-403 | Implementar Indicadores do Vilarejo (Prosperidade, Segurança, Aprovação) | Gameplay | P1 | TASK-401 | TODO |
-| TASK-404 | Criar Suíte de Testes Automatizados da Sprint 4 | Testing | P1 | TASK-401 | TODO |
+- [x] **BACKLOG-P0-001:** Implementar arquitetura do `ActionSystem` (`GameAction`, `ActionValidator`) para centralizar os custos de tempo, energia e fome.
+- [x] **BACKLOG-P0-002:** Refatorar `TimeManager` para operar em modo Action Time System, eliminando a degradação contínua em tempo real.
+- [ ] **BACKLOG-P0-003:** Criar os Resources customizados `DropTableData` e `DropEntryData` com suporte a rolagens `INDEPENDENT`, `WEIGHTED` e `EXCLUSIVE`.
+- [ ] **BACKLOG-P0-004:** Reformular o `SaveManager` adicionando o campo obrigatório `save_version` e pipelines de migração de schema.
+
+---
+
+## 2. BUGS (P1 — PRIORIDADE ALTA)
+
+- [x] **BUG-001:** Corrigir penalidade noturna de sono (22:00–02:00) e a rotina de desmaio às 06:00 no `SurvivalComponent`.
+- [x] **BUG-002:** Resolver falha de busca de componente em nós instanciados dinamicamente no `ActionSystem`.
+
+---
+
+## 3. REFATORAÇÕES & ARQUITETURA (P2 — MÉDIA)
+
+- [ ] **REFACT-001:** Implementar `StateMachine` hierárquica para os inimigos `ENM-001` (Lobo) e `ENM-002` (Salteador).
+- [ ] **REFACT-002:** Padronizar nomenclatura de arquivos `.tres` e `.gd` para o idioma Inglês em todo o repositório.
+- [ ] **REFACT-003:** Desacoplar `ReputationManager` e `QuestManager` de Autoloads globais.
+
+---
+
+## 4. GAMEPLAY & SISTEMAS (MVP)
+
+- [ ] **GAMEPLAY-001:** Implementar `PriceCalculator` dinâmico levando em conta estoque local, demanda mínima e reputação.
+- [ ] **GAMEPLAY-002:** Garantir que bancadas de trabalho de processamento passivo operem sem consumir energia do jogador durante a execução.
+- [ ] **GAMEPLAY-003:** Implementar modificadores de drop baseados na Estação (`SeasonSystem`) e no Clima (`WeatherSystem`).
+
+---
+
+## 5. INTERFACE DE USUÁRIO (UI)
+
+- [ ] **UI-001:** Atualizar a HUD para exibir feedbacks claros sobre as 5 faixas de Fome.
+- [ ] **UI-002:** Exibir tempo estimado de execução e consumo de energia na interface de Crafting.
+
+---
+
+## 6. TESTES & QA
+
+- [x] **TEST-001:** Criar suíte de testes unitários para o `ActionSystem` (`test_action_system.gd`).
+- [ ] **TEST-002:** Criar suíte de testes unitários para a distribuição estatística e margem de erro do `DropSystem` (`test_drop_system.gd`).
+
+---
+
+## 7. VISÃO FUTURA (PÓS-MVP / EXPANSÃO)
+
+- [ ] **EXP-001:** Arquitetura de Servidor Autoritativo para Multiplayer PvE.
+- [ ] **EXP-002:** Simulação demográfica e LOD de NPCs para grandes cidades.
+- [ ] **EXP-003:** Guerras territoriais e leis municipais avançadas.
 
 ---
 

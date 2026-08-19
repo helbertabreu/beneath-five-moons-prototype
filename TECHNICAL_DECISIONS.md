@@ -1,125 +1,80 @@
 # TECHNICAL_DECISIONS.md
 
-> Registro permanente das decisões técnicas e arquiteturais importantes do projeto.
-> O objetivo é evitar que decisões previamente aprovadas sejam alteradas ou esquecidas sem justificativa.
-
----
-
-# COMO REGISTRAR UMA DECISÃO
-
-Para cada decisão importante, utilize:
-
-```text
-ID:
-Data:
-Título:
-Status:
-
-Contexto:
-Problema:
-
-Alternativas consideradas:
-
-Decisão:
-
-Motivo:
-
-Consequências positivas:
-
-Trade-offs / consequências negativas:
-
-Impactos no projeto:
-
-Arquivos ou sistemas afetados:
-
-Plano de migração, se aplicável:
-
-Responsável pela decisão:
-```
+> Registro permanente das decisões técnicas e arquiteturais importantes do projeto Beneath Five Moons.[cite: 1, 8]
+> Preserva o histórico de decisões e impede alterações não justificadas.[cite: 8]
 
 ---
 
 # STATUS POSSÍVEIS
 
-- PROPOSTA
-- ATIVA
-- SUPERADA
-- CANCELADA
-
----
-
-# TECHNICAL_DECISIONS.md
-
-> Registro permanente das decisões técnicas e arquiteturais do projeto BeneathFiveMoons_Prototype.
-
----
-
-# TECHNICAL_DECISIONS.md
-
-> Registro permanente das decisões técnicas e arquiteturais do projeto Beneath Five Moons.
+- PROPOSTA[cite: 8]
+- ATIVA[cite: 8]
+- SUPERADA[cite: 8]
+- CANCELADA[cite: 8]
 
 ---
 
 # DECISÕES ATIVAS
 
-## ADR-001 — Composição Modular por Componentes no Player
-
-**Data:** 17/08/2026  
-**Status:** ATIVA
+## ADR-001 — Padronização em Godot Engine 4.7.1 e GDScript Fortemente Tipado[cite: 1, 8]
+**Data:** 19/08/2026[cite: 1, 8]  
+**Status:** ATIVA[cite: 8]
 
 ### Contexto
-Sistemas de Sobrevivência, Inventário e Profissão precisam coexistir no personagem principal mantendo responsabilidades bem separadas e desacopladas.
+O projeto é desenvolvido na Godot Engine 4.7.1 utilizando GDScript fortemente tipado para garantir integridade, desempenho e detecção de erros em tempo de compilação.[cite: 1, 8]
 
 ### Decisão
-Manter a arquitetura de componentes em nós filhos (`SurvivalComponent`, `InventoryComponent`, `ProfessionComponent`), onde o `PlayerController` serve apenas como agregador de entrada e comunicação.
-
-### Consequências
-- Alta facilidade de teste e baixa propagação de erros.
-- Permite reutilizar componentes semelhantes em outras entidades do mundo.
+Todo o código, chamadas de API e estruturação de nós devem ser estritamente compatíveis com a versão 4.7.1 da Godot Engine.[cite: 1, 8]
 
 ---
 
-## ADR-002 — Action Time System (ATS) Desacoplado da Física
-
-**Data:** 17/08/2026  
-**Status:** ATIVA
+## ADR-002 — Arquitetura de Componentes e Composição[cite: 8]
+**Data:** 19/08/2026[cite: 1, 8]  
+**Status:** ATIVA[cite: 8]
 
 ### Contexto
-A passagem do tempo e o desgaste físico (Fome/Energia/Fadiga) devem ocorrer pelo volume de trabalho ativo realizado pelo jogador, e não pelo tempo real decorrido na tela.
+O projeto precisa manter sistemas flexíveis, desacoplados e testáveis para entidades como jogador, NPCs, inimigos e recursos.[cite: 8]
 
 ### Decisão
-O `TimeManager` atua como relógio central e o tempo avança exclusivamente quando o jogador executa ações ativas (minerar, fabricar, viajar). O movimento simples no mapa não consome relógio.
-
-### Consequências
-- Experiência tática onde o jogador planeja o consumo do tempo do dia.
+Priorizar composição por Nodes/Components (`HealthComponent`, `SurvivalComponent`, `InventoryComponent`) e emissão de sinais em vez de hierarquias profundas de herança.[cite: 8]
 
 ---
 
-## ADR-003 — Persistência JSON Centralizada por SubSistemas
-
-**Data:** 17/08/2026  
-**Status:** ATIVA
-
-### Decisão
-O `SaveManager` salva todas as seções do estado do jogo no arquivo `user://savegame.json`, delegando a cada componente a responsabilidade de ler e gerar seu próprio dicionário de salvamento.
-
-### Consequências
-- Inspeção transparente dos dados salvos durante o desenvolvimento.
-
-## ADR-004 — Adoção Obrigatória de Testes Automatizados por Sprint
-
-**Data:** 17/08/2026  
-**Status:** ATIVA
+## ADR-003 — Centralização Temporal via Action Time System[cite: 8]
+**Data:** 19/08/2026[cite: 1, 8]  
+**Status:** ATIVA[cite: 8]
 
 ### Contexto
-Para evitar regressões em sistemas críticos de matemática (XP, ATS, Reputação) e mecânicas de combate à medida que o projeto cresce.
+O GDD especifica um *Action Time System*, no qual o tempo avança primariamente quando o jogador executa ações intencionais (coleta, viagem, crafting, descanso).[cite: 1, 8]
 
 ### Decisão
-Todas as Sprints devem incluir obrigatoriamente um script de teste automatizado desacoplado na pasta `res://tests/` cobrindo as funcionalidades entregues.
+O `TimeManager` avança o tempo de forma discreta através da execução de instâncias de `GameAction` coordenadas pelo `ActionSystem`.[cite: 1, 6]
 
-### Consequências
-- Validação rápida de regras de negócio sem necessidade de simulação manual no editor.
-- Garantia de estabilidade antes da entrega de novas Sprints.
+---
+
+## ADR-004 — Busca Agnóstica e Polimórfica de Componentes[cite: 1]
+**Data:** 19/08/2026[cite: 1, 8]  
+**Status:** ATIVA[cite: 8]
+
+### Contexto
+Componentes acessados por sistemas centrais (como o `ActionSystem` acessando o `SurvivalComponent`) podem possuir nomes de nó variados na árvore de cena ou serem instanciados dinamicamente em testes.[cite: 1]
+
+### Decisão
+Sistemas de serviços não devem depender estritamente de Strings de nome de nós (`get_node("SurvivalComponent")`). Devem utilizar iteradores e verificações por tipo de classe (`child is SurvivalComponent`) como fallback resiliente.[cite: 1]
+
+---
+
+# DECISÕES EM AVALIAÇÃO / PROPOSTAS
+
+## ADR-005 — Versionamento e Migração de Saves[cite: 8]
+**Data:** 19/08/2026[cite: 1, 8]  
+**Status:** PROPOSTA[cite: 8]
+
+### Contexto
+O `SaveManager` legado salva dicionários de estado sem gravar a versão da estrutura do Save.[cite: 1, 8]
+
+### Decisão Proposta
+Inserir a chave `save_version` em todos os arquivos de save e criar pipeline de migração dentro de `SaveManager`.[cite: 1, 8]
 
 ---
 

@@ -1,102 +1,94 @@
-# res://src/components/survival_component.gd
+## 6. Refatoração: `src/components/survival_component.gd`
+# Ajuste das 5 faixas de fome e penalidades do GDD Seção 8 e 10[cite: 1, 6].
+
 class_name SurvivalComponent
 extends Node
-
-## Gerencia Fome, Energia, Fadiga e penalidades de atributos do Jogador.
+## Componente responsável pela gestão do estado biológico do jogador (Fome, Energia e Fadiga).
 
 @export var max_hunger: float = 100.0
-@export var base_max_energy: float = 100.0
+@export var current_hunger: float = 100.0
 
-var current_hunger: float = 100.0
-var current_energy: float = 100.0
-var accumulated_fatigue: float = 0.0 # Reduz o limite máximo de energia (0.0 a 0.5)
+@export var max_energy: float = 100.0
+@export var current_energy: float = 100.0
+
+# Modificador temporário de energia máxima diária por penalidade noturna
+var energy_max_modifier: float = 1.0
+
+## Enum que reflete as 5 faixas de fome estipuladas no GDD Seção 8.
+enum HungerState {
+	FULL,      # 81–100 (+10% eficiência)
+	NORMAL,    # 31–80  (Sem modificador)
+	HUNGRY,    # 11–30  (+50% tempo de trabalho)
+	STARVING,  # 1–10   (+100% tempo / 2x consumo de Energia)
+	CRITICAL   # 0      (Bloqueia esforço físico)
+}
 
 func _ready() -> void:
-	# Garante que o jogador inicie o jogo com 100% dos status
-	current_hunger = max_hunger
-	current_energy = get_effective_max_energy()
-	
-	# Conecta com a virada de dia do TimeManager para processar a Fadiga
-	EventBus.day_changed.connect(_on_day_changed)
-	
-	# Emite o estado inicial para a UI de forma segura após a montagem da árvore
-	call_deferred("_update_all_signals")
+	if EventBus != null:
+		EventBus.day_started.connect(_on_day_started)
 
+## Consome uma quantidade de fome.
+func consume_hunger(amount: float) -> void:
+	var multiplier: float = 1.0
+	if get_hunger_state() == HungerState.STARVING:
+		multiplier = 2.0 # GDD Seção 8: No estado Faminto, gasta o dobro de energia/fome
+		
+	current_hunger = clamp(current_hunger - (amount * multiplier), 0.0, max_hunger)
+	if EventBus != null:
+		EventBus.emit_signal("hunger_changed", current_hunger, max_hunger)
+		EventBus.emit_signal("hunger_state_changed", HungerState.keys()[get_hunger_state()])
+
+## Restaura fome do jogador.
+func restore_hunger(amount: float) -> void:
+	current_hunger = clamp(current_hunger + amount, 0.0, max_hunger)
+	if EventBus != null:
+		EventBus.emit_signal("hunger_changed", current_hunger, max_hunger)
+
+## Consome energia do jogador.
+func consume_energy(amount: float) -> void:
+	current_energy = clamp(current_energy - amount, 0.0, get_effective_max_energy())
+	if EventBus != null:
+		EventBus.emit_signal("energy_changed", current_energy, get_effective_max_energy())
+
+## Restaura energia do jogador.
+func restore_energy(amount: float) -> void:
+	current_energy = clamp(current_energy + amount, 0.0, get_effective_max_energy())
+	if EventBus != null:
+		EventBus.emit_signal("energy_changed", current_energy, get_effective_max_energy())
+
+## Retorna a faixa atual de fome com base na porcentagem de nutrição.
+func get_hunger_state() -> HungerState:
+	if current_hunger <= 0.0:
+		return HungerState.CRITICAL
+	elif current_hunger <= 10.0:
+		return HungerState.STARVING
+	elif current_hunger <= 30.0:
+		return HungerState.HUNGRY
+	elif current_hunger <= 80.0:
+		return HungerState.NORMAL
+	else:
+		return HungerState.FULL
+
+## Retorna a energia máxima aplicável com o modificador de penalidade diária.
 func get_effective_max_energy() -> float:
-	return base_max_energy * (1.0 - accumulated_fatigue)
+	return max_energy * energy_max_modifier
 
-func consume_resources_for_action(base_hunger_cost: float, base_energy_cost: float, action_time_minutes: int) -> bool:
-	# Checa se o jogador pode realizar a ação
-	if current_energy < base_energy_cost:
-		return false
-		
-	# Calcula multiplicadores por faixa de Fome
-	var hunger_time_multiplier: float = 1.0
-	var energy_cost_multiplier: float = 1.0
-	
-	if current_hunger <= 0.0: # Estado Crítico
-		return false
-	elif current_hunger <= 10.0: # Faminto
-		energy_cost_multiplier = 2.0
-		hunger_time_multiplier = 2.0
-	elif current_hunger <= 30.0: # Com Fome
-		hunger_time_multiplier = 1.5
-	elif current_hunger > 80.0: # Alimentado (+10% eficiência)
-		hunger_time_multiplier = 0.85
-		
-	# Aplica consumo
-	var final_energy_cost: float = base_energy_cost * energy_cost_multiplier
-	current_energy = clampf(current_energy - final_energy_cost, 0.0, get_effective_max_energy())
-	current_hunger = clampf(current_hunger - base_hunger_cost, 0.0, max_hunger)
-	
-	# Rastreia acúmulo de fadiga se trabalhar até tarde
-	_check_fatigue_buildup()
-	
-	# Avança o tempo no relógio do ATS (com multiplicador de fome aplicado ao tempo)
-	var final_time: int = int(ceil(action_time_minutes * hunger_time_multiplier))
-	TimeManager.advance_time(final_time)
-	
-	_update_all_signals()
-	return true
+## Aplica a penalidade noturna de trabalhar entre 22:00 e 02:00 (GDD Seção 10).
+func apply_late_night_penalty() -> void:
+	energy_max_modifier = 0.80 # -20% de energia máxima
+	if EventBus != null:
+		EventBus.emit_signal("fatigue_penalty_applied", 0.20)
 
-func consume_food(hunger_restore: float, energy_restore: float) -> void:
-	current_hunger = clampf(current_hunger + hunger_restore, 0.0, max_hunger)
-	current_energy = clampf(current_energy + energy_restore, 0.0, get_effective_max_energy())
-	_update_all_signals()
-
-func rest_in_campfire() -> void:
-	# Pausa de 1 hora recupera +30 de energia
-	current_energy = clampf(current_energy + 30.0, 0.0, get_effective_max_energy())
-	TimeManager.advance_time(60)
-	_update_all_signals()
-
-func _check_fatigue_buildup() -> void:
-	if TimeManager.is_overnight():
-		# Desmaia se trabalhar até o período crítico
-		_force_faint()
-	elif TimeManager.is_late_night():
-		# Aplica Fadiga Leve para o dia seguinte (-20% de energia máxima)
-		accumulated_fatigue = maxf(accumulated_fatigue, 0.20)
-
-func _force_faint() -> void:
-	accumulated_fatigue = 0.50 # Acorda com -50% de energia
+## Executa a rotina de desmaio por exaustão às 06:00 (GDD Seção 10).
+func trigger_faint_routine() -> void:
+	if TimeManager != null:
+		TimeManager.hour = 12
+		TimeManager.minute = 0
+	energy_max_modifier = 0.50 # Acorda ao meio-dia com apenas 50% de energia
 	current_energy = get_effective_max_energy()
-	current_hunger = clampf(current_hunger - 20.0, 0.0, max_hunger)
-	EventBus.player_fainted.emit()
-	TimeManager.advance_time(360) # Pula tempo de exaustão
+	if EventBus != null:
+		EventBus.emit_signal("player_fainted")
 
-func _on_day_changed(_day_count: int, _season: String) -> void:
-	# Processa renovação de dia
-	current_hunger = clampf(current_hunger - 20.0, 0.0, max_hunger) # Custo do sono
-	current_energy = get_effective_max_energy()
-	
-	# Reseta a fadiga acumulada para o próximo ciclo se repousou adequadamente
-	if not TimeManager.is_late_night():
-		accumulated_fatigue = 0.0
-		
-	_update_all_signals()
-
-func _update_all_signals() -> void:
-	EventBus.hunger_changed.emit(current_hunger, max_hunger)
-	EventBus.energy_changed.emit(current_energy, get_effective_max_energy())
-	EventBus.fatigue_changed.emit(accumulated_fatigue)
+func _on_day_started(_day_number: int) -> void:
+	# Reseta modificador diário padrão no início do dia
+	energy_max_modifier = 1.0

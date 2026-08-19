@@ -1,97 +1,47 @@
-# res://autoload/time_manager.gd
-extends Node
+## 5. Refatoração: `autoload/time_manager.gd`
+# Remoção do avanço de tempo realtime e implementação estrita do **Action Time System**[cite: 1, 6].
 
-## Gerenciador do Action Time System (ATS) e Calendário.
+extends Node
+## TimeManager - Autoridade temporal centralizada.
+##
+## Opera estritamente via Action Time System. O tempo avança apenas através de
+## chamadas explícitas de ações atômicas.
+
+var day: int = 1
+var hour: int = 6
+var minute: int = 0
 
 const MINUTES_PER_DAY: int = 1440
-const START_HOUR: int = 6 # O dia começa às 06:00
 
-enum Season { PRIMAVERA, VERÃO, OUTONO, INVERNO }
-
-var current_day: int = 1
-var total_minutes_today: int = START_HOUR * 60
-var current_season: Season = Season.PRIMAVERA
-
-
-func _ready() -> void:
-	call_deferred("_emit_initial_signals")
-
-
+## Avança o relógio do jogo em uma quantidade discreta de minutos.
 func advance_time(minutes: int) -> void:
 	if minutes <= 0:
 		return
 		
-	total_minutes_today += minutes
-	var end_of_day_limit: int = (24 + START_HOUR) * 60
-	
-	# Subtrai 1440 minutos (24 horas) para cada dia que avançar no tempo
-	while total_minutes_today >= end_of_day_limit:
-		total_minutes_today -= MINUTES_PER_DAY
-		_advance_day()
+	minute += minutes
+	while minute >= 60:
+		minute -= 60
+		hour += 1
+		if EventBus != null:
+			EventBus.emit_signal("hour_changed", hour)
 		
-	EventBus.time_advanced.emit(minutes, get_current_hour(), get_current_minute())
+		if hour >= 24:
+			hour -= 24
+			day += 1
+			_on_new_day_started()
 
+	if EventBus != null:
+		EventBus.emit_signal("time_advanced", minutes)
 
-func get_current_hour() -> int:
-	return (int(total_minutes_today / 60.0)) % 24
+## Retorna a quantidade total de minutos transcorridos desde o dia 1 às 00:00.
+func get_total_minutes() -> int:
+	return ((day - 1) * MINUTES_PER_DAY) + (hour * 60) + minute
 
+## Retorna string formatada do horário atual (ex: "06:15").
+func get_time_string() -> String:
+	return "%02d:%02d" % [hour, minute]
 
-func get_current_minute() -> int:
-	return total_minutes_today % 60
-
-
-func is_late_night() -> bool:
-	var hour: int = get_current_hour()
-	return hour >= 22 or hour < 2
-
-
-func is_overnight() -> bool:
-	var hour: int = get_current_hour()
-	return hour >= 2 and hour < 6
-
-
-func get_season_name() -> String:
-	match current_season:
-		Season.PRIMAVERA: return "Primavera"
-		Season.VERÃO: return "Verão"
-		Season.OUTONO: return "Outono"
-		Season.INVERNO: return "Inverno"
-		_: return "Desconhecido"
-
-
-## Aplica os dados carregados pelo SaveManager recalculando os minutos e estação
-func load_time_state(day: int, hour: int, minute: int, season_val) -> void:
-	current_day = day
-	total_minutes_today = (hour * 60) + minute
-	
-	if season_val is int or season_val is float:
-		current_season = int(season_val) as Season
-	elif season_val is String:
-		match season_val:
-			"Primavera": current_season = Season.PRIMAVERA
-			"Verão": current_season = Season.VERÃO
-			"Outono": current_season = Season.OUTONO
-			"Inverno": current_season = Season.INVERNO
-			_: current_season = Season.PRIMAVERA
-
-	_emit_initial_signals()
-
-
-func _advance_day() -> void:
-	current_day += 1
-	
-	# Calcula a estação do ano (cada estação dura 7 dias de jogo)
-	var season_index: int = int((current_day - 1) / 7.0) % 4
-	current_season = season_index as Season
-	
-	EventBus.day_changed.emit(current_day, get_season_name())
-	_notify_time_change()
-
-
-func _notify_time_change() -> void:
-	EventBus.time_advanced.emit(total_minutes_today, get_current_hour(), get_current_minute())
-
-
-func _emit_initial_signals() -> void:
-	EventBus.day_changed.emit(current_day, get_season_name())
-	_notify_time_change()
+## Processa regras do início do novo dia.
+func _on_new_day_started() -> void:
+	if EventBus != null:
+		EventBus.emit_signal("day_started", day)
