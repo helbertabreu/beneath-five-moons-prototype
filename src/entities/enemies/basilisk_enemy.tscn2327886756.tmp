@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://3l83spfw8uqt"]
+
+[ext_resource type="PackedScene" uid="uid://bwexhygwe16ds" path="res://src/entities/enemies/enemy_base.tscn" id="1_0wbuj"]
+[ext_resource type="Script" uid="uid://6y80i3va0k6i" path="res://src/entities/enemies/basilisk_enemy.gd" id="2_auwf3"]
+
+[node name="basilisk_enemy" unique_id=844127474 instance=ExtResource("1_0wbuj")]
+script = ExtResource("2_auwf3")

@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://3w6838vfwjut"]
+
+[ext_resource type="PackedScene" uid="uid://bwexhygwe16ds" path="res://src/entities/enemies/enemy_base.tscn" id="1_ys6to"]
+[ext_resource type="Script" uid="uid://dk6cg4ogddy5o" path="res://src/entities/enemies/goblin_enemy.gd" id="2_y6vko"]
+
+[node name="goblin_enemy" unique_id=844127474 instance=ExtResource("1_ys6to")]
+script = ExtResource("2_y6vko")

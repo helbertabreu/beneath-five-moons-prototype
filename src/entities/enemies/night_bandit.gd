@@ -8,7 +8,7 @@ extends CharacterBody2D
 @export var display_name: String = "Salteador da Noite"
 
 var health_component: HealthComponent
-var state_machine: EnemyStateMachine
+var state_machine: StateMachine
 
 func _ready() -> void:
 	add_to_group("enemies")
@@ -18,7 +18,7 @@ func _ready() -> void:
 		health_component = get_node_or_null("HealthComponent") as HealthComponent
 		
 	if state_machine == null:
-		state_machine = get_node_or_null("StateMachine") as EnemyStateMachine
+		state_machine = get_node_or_null("StateMachine") as StateMachine
 	
 	if health_component != null:
 		health_component.max_health = 60.0

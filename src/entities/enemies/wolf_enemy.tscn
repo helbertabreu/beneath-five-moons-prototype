@@ -1,52 +1,12 @@
 [gd_scene format=3 uid="uid://8pcb0kqfaeoo"]
 
+[ext_resource type="PackedScene" uid="uid://bwexhygwe16ds" path="res://src/entities/enemies/enemy_base.tscn" id="1_jrjhv"]
 [ext_resource type="Script" uid="uid://c7hnxayrndwih" path="res://src/entities/enemies/wolf_enemy.gd" id="1_oc1q7"]
 [ext_resource type="Texture2D" uid="uid://sgy4knwpusyx" path="res://assets/lobojpg.jpg" id="2_dd2nu"]
-[ext_resource type="Script" uid="uid://dwr4m3ti7w5cu" path="res://src/components/health_component.gd" id="2_jrjhv"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lrn3t"]
-radius = 14.0
-height = 36.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_u30wy"]
-radius = 20.0
-height = 48.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_oc1q7"]
-radius = 35.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_u0ya7"]
-radius = 180.0
-
-[node name="WolfEnemy" type="CharacterBody2D" unique_id=503393886]
+[node name="wolf_enemy" unique_id=844127474 instance=ExtResource("1_jrjhv")]
 script = ExtResource("1_oc1q7")
+enemy_id = "ENM-001"
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1634976220]
+[node name="Visual" parent="." index="0" unique_id=1164577622]
 texture = ExtResource("2_dd2nu")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=566026508]
-shape = SubResource("CapsuleShape2D_lrn3t")
-
-[node name="HealthComponent" type="Node" parent="." unique_id=970452503]
-script = ExtResource("2_jrjhv")
-max_health = 40.0
-
-[node name="HurtboxComponent" type="Area2D" parent="." unique_id=1649136712]
-collision_layer = 4
-
-[node name="HurtboxCollision" type="CollisionShape2D" parent="HurtboxComponent" unique_id=2092880914]
-shape = SubResource("CapsuleShape2D_u30wy")
-
-[node name="HitboxComponent" type="Area2D" parent="." unique_id=1813406981]
-collision_mask = 4
-
-[node name="HitboxCollision" type="CollisionShape2D" parent="HitboxComponent" unique_id=1796910959]
-shape = SubResource("CircleShape2D_oc1q7")
-
-[node name="DetectionArea" type="Area2D" parent="." unique_id=1597808441]
-
-[node name="DetectionCollision" type="CollisionShape2D" parent="DetectionArea" unique_id=1779998102]
-shape = SubResource("CircleShape2D_u0ya7")
-
-[node name="AttackTimer" type="Timer" parent="." unique_id=1795412976]
-wait_time = 1.5

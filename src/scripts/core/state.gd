@@ -5,7 +5,7 @@ extends Node
 ## Gerencia o ciclo de vida de um estado individual (entrada, saída, atualização e física).
 
 ## Referência estática para a EnemyStateMachine que gerencia este estado.
-var state_machine: EnemyStateMachine = null
+var state_machine: StateMachine = null
 
 ## Método chamado imediatamente ao transicionar para este estado.
 ## [param msg] Dicionário opcional para passar parâmetros adicionais de transição.

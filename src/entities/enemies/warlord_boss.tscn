@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://di1x8p6bhbaho"]
+
+[ext_resource type="PackedScene" uid="uid://bwexhygwe16ds" path="res://src/entities/enemies/enemy_base.tscn" id="1_rdnxg"]
+[ext_resource type="Script" uid="uid://dtoevj8riv2a6" path="res://src/entities/enemies/warlord_boss.gd" id="2_734yo"]
+
+[node name="warlord_boss" unique_id=844127474 instance=ExtResource("1_rdnxg")]
+script = ExtResource("2_734yo")

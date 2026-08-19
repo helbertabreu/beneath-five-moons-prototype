@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://buy37wxxp0fwr"]
+
+[ext_resource type="PackedScene" uid="uid://bwexhygwe16ds" path="res://src/entities/enemies/enemy_base.tscn" id="1_3cwu1"]
+[ext_resource type="Script" uid="uid://dss6nbyu1cdsx" path="res://src/entities/enemies/troll_enemy.gd" id="2_2gx40"]
+
+[node name="troll_enemy" unique_id=844127474 instance=ExtResource("1_3cwu1")]
+script = ExtResource("2_2gx40")

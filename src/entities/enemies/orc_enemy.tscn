@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://dv6on6371iptw"]
+
+[ext_resource type="PackedScene" uid="uid://bwexhygwe16ds" path="res://src/entities/enemies/enemy_base.tscn" id="1_oa3uq"]
+[ext_resource type="Script" uid="uid://c4ef21h75ry2q" path="res://src/entities/enemies/orc_enemy.gd" id="2_8jiv7"]
+
+[node name="orc_enemy" unique_id=844127474 instance=ExtResource("1_oa3uq")]
+script = ExtResource("2_8jiv7")

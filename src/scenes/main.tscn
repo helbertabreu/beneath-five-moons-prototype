@@ -3,13 +3,19 @@
 [ext_resource type="Script" uid="uid://rmitojag20rw" path="res://src/scenes/main.gd" id="1_32aa5"]
 [ext_resource type="PackedScene" uid="uid://cuenh7dcb6xig" path="res://src/entities/player/player.tscn" id="2_5dlwx"]
 [ext_resource type="PackedScene" uid="uid://dv8k8mgc804q3" path="res://src/entities/resource_nodes/resource_node.tscn" id="3_dbro3"]
+[ext_resource type="PackedScene" uid="uid://3l83spfw8uqt" path="res://src/entities/enemies/basilisk_enemy.tscn" id="3_htxff"]
 [ext_resource type="PackedScene" uid="uid://8pcb0kqfaeoo" path="res://src/entities/enemies/wolf_enemy.tscn" id="3_kbdt0"]
 [ext_resource type="PackedScene" uid="uid://cmwy1mpmb3xg2" path="res://src/ui/hud/hud.tscn" id="3_o81g6"]
 [ext_resource type="PackedScene" uid="uid://bnmd5tmub15o7" path="res://src/entities/enemies/night_bandit.tscn" id="4_4rjby"]
+[ext_resource type="PackedScene" uid="uid://3w6838vfwjut" path="res://src/entities/enemies/goblin_enemy.tscn" id="4_v252j"]
+[ext_resource type="PackedScene" uid="uid://dv6on6371iptw" path="res://src/entities/enemies/orc_enemy.tscn" id="5_4rjby"]
 [ext_resource type="PackedScene" uid="uid://dnhx2ejpfjuh5" path="res://src/entities/workstations/workstation.tscn" id="6_2lg1k"]
 [ext_resource type="Resource" uid="uid://c3kt2hywvabsn" path="res://data/recipes/receita_lingote_cobre.tres" id="7_kokaf"]
+[ext_resource type="PackedScene" uid="uid://buy37wxxp0fwr" path="res://src/entities/enemies/troll_enemy.tscn" id="7_qsm7c"]
 [ext_resource type="Resource" uid="uid://bi65qjrjvlqo1" path="res://data/recipes/receita_ferramentas_cobre.tres" id="8_lp058"]
+[ext_resource type="PackedScene" uid="uid://di1x8p6bhbaho" path="res://src/entities/enemies/warlord_boss.tscn" id="8_n75dp"]
 [ext_resource type="PackedScene" uid="uid://dql6dmpo3cv7m" path="res://src/entities/npcs/npc_vendor.tscn" id="9_lp058"]
+[ext_resource type="PackedScene" uid="uid://b2yh5htqa6ew" path="res://src/entities/enemies/wraith_enemy.tscn" id="10_j04uq"]
 [ext_resource type="Resource" uid="uid://bx0inj04f8ouo" path="res://data/factions/faccao_vilarejo.tres" id="10_p1ia5"]
 [ext_resource type="Resource" uid="uid://8xx6uyjayro2" path="res://data/items/ferramenta_cobre.tres" id="11_kbdt0"]
 [ext_resource type="PackedScene" uid="uid://bc7gy1au33nsg" path="res://src/entities/farming/crop_plot.tscn" id="12_kbdt0"]
@@ -21,13 +27,31 @@ script = ExtResource("1_32aa5")
 
 [node name="Player" parent="World" unique_id=991202017 instance=ExtResource("2_5dlwx")]
 
-[node name="Node" type="Node" parent="World" unique_id=1920966200]
+[node name="Enemies" type="Node2D" parent="World" unique_id=1991185277]
 
-[node name="WolfEnemy" parent="World/Node" unique_id=503393886 instance=ExtResource("3_kbdt0")]
-position = Vector2(-196, -333)
+[node name="basilisk_enemy" parent="World/Enemies" unique_id=844127474 instance=ExtResource("3_htxff")]
+position = Vector2(856, 139)
 
-[node name="NightBandit" parent="World/Node" unique_id=2106968416 instance=ExtResource("4_4rjby")]
-position = Vector2(212, -361)
+[node name="goblin_enemy" parent="World/Enemies" unique_id=1153900220 instance=ExtResource("4_v252j")]
+position = Vector2(913, -179)
+
+[node name="night_bandit" parent="World/Enemies" unique_id=1095178709 instance=ExtResource("4_4rjby")]
+position = Vector2(224, -394)
+
+[node name="orc_enemy" parent="World/Enemies" unique_id=310491646 instance=ExtResource("5_4rjby")]
+position = Vector2(816, -479)
+
+[node name="troll_enemy" parent="World/Enemies" unique_id=1539169282 instance=ExtResource("7_qsm7c")]
+position = Vector2(-960, 226)
+
+[node name="warlord_boss" parent="World/Enemies" unique_id=1470612469 instance=ExtResource("8_n75dp")]
+position = Vector2(-1054, -52)
+
+[node name="wolf_enemy" parent="World/Enemies" unique_id=1094571211 instance=ExtResource("3_kbdt0")]
+position = Vector2(-205, -398)
+
+[node name="wraith_enemy" parent="World/Enemies" unique_id=1493800526 instance=ExtResource("10_j04uq")]
+position = Vector2(-955, -335)
 
 [node name="ResourceNode" parent="World" unique_id=735145452 instance=ExtResource("3_dbro3")]
 position = Vector2(-200, -100)

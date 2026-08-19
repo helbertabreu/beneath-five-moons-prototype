@@ -12,7 +12,7 @@ func run_all_tests() -> void:
 	print("[TEST-SUITE] Todos os testes da FSM de Inimigos passaram com SUCESSO!")
 
 func test_fsm_initial_state() -> void:
-	var fsm = EnemyStateMachine.new()
+	var fsm = StateMachine.new()
 	var idle = IdleState.new()
 	idle.name = "IdleState"
 	var patrol = PatrolState.new()
@@ -41,7 +41,7 @@ func test_health_depleted_transition() -> void:
 	health.name = "HealthComponent"
 	wolf.add_child(health)
 	
-	var fsm = EnemyStateMachine.new()
+	var fsm = StateMachine.new()
 	fsm.name = "StateMachine"
 	
 	var dead = DeadState.new()

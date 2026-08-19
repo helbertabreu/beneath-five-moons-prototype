@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://b2yh5htqa6ew"]
+
+[ext_resource type="PackedScene" uid="uid://bwexhygwe16ds" path="res://src/entities/enemies/enemy_base.tscn" id="1_6ild0"]
+[ext_resource type="Script" uid="uid://dpg5ckapimcne" path="res://src/entities/enemies/wraith_enemy.gd" id="2_iqoym"]
+
+[node name="wraith_enemy" unique_id=844127474 instance=ExtResource("1_6ild0")]
+script = ExtResource("2_iqoym")

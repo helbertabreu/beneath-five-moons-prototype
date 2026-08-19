@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dr47gp0dx6fur"]
+
+[ext_resource type="Script" uid="uid://dyyjbwokrqwby" path="res://tests/test_enemy_fsm.gd" id="1_p3mbl"]
+
+[node name="test_enemy_fsm" type="Node" unique_id=1004367134]
+script = ExtResource("1_p3mbl")

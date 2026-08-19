@@ -1,57 +1,72 @@
-class_name EnemyStateMachine
+class_name StateMachine
 extends Node
-## Gerenciador central da Finite State Machine (FSM) dos inimigos.
-##
-## Gerencia transições atômicas entre estados filhos e delega o processamento de física e quadros.
+
+## Máquina de Estados Genérica (FSM) para gerenciamento de comportamentos.
 
 signal transitioned(state_name: String)
 
-## Estado inicial configurável pelo Inspetor.
-@export var initial_state: State
+## Permite aceitar NodePath (via Inspetor) ou referências diretas de nós com segurança.
+@export var initial_state: Variant
 
-## Estado atual ativo na FSM.
-var current_state: State
-var _states: Dictionary = {}
+var current_state: Node = null
+var states: Dictionary = {}
 
 func _ready() -> void:
-	# Verificação defensiva de inicialização para suportar instâncias dinâmicas e testes unitários
-	if owner != null and not owner.is_node_ready():
-		await owner.ready
-	
-	# Mapeia automaticamente todos os nós filhos que derivam de State
 	for child in get_children():
 		if child is State:
-			_states[child.name.to_lower()] = child
-			child.state_machine = self
-			
-	if initial_state != null:
-		current_state = initial_state
-		current_state.enter()
-	elif get_child_count() > 0 and get_child(0) is State:
-		current_state = get_child(0) as State
-		current_state.enter()
+			states[child.name.to_lower()] = child
+			if child.has_signal("transition"):
+				child.transition.connect(_on_child_transition)
+	
+	# Verificação defensiva de segurança para o owner e ciclo de vida
+	if is_inside_tree():
+		if owner:
+			await owner.ready
+		_initialize_state()
+
+func _initialize_state() -> void:
+	if initial_state == null:
+		return
+	
+	var initial: Node = null
+	
+	if initial_state is NodePath:
+		initial = get_node_or_null(initial_state)
+	elif initial_state is Node:
+		initial = initial_state
+		
+	if initial and initial is State:
+		transition_to(initial.name)
 
 func _process(delta: float) -> void:
-	if current_state != null:
+	if current_state and current_state.has_method("update"):
 		current_state.update(delta)
 
 func _physics_process(delta: float) -> void:
-	if current_state != null:
+	if current_state and current_state.has_method("physics_update"):
 		current_state.physics_update(delta)
 
-## Transiciona a FSM atômica para um novo estado pelo nome.
-## [param target_state_name] Nome do nó do estado destino (case-insensitive).
-## [param msg] Parâmetros adicionais para o método enter() do estado destino.
-func transition_to(target_state_name: String, msg: Dictionary = {}) -> void:
-	var key: String = target_state_name.to_lower()
-	if not _states.has(key):
-		push_warning("EnemyStateMachine: Estado '%s' não encontrado em %s" % [target_state_name, get_path()])
+func _on_child_transition(state_name: String, source_state: State) -> void:
+	if source_state != current_state:
 		return
-		
-	var new_state: State = _states[key] as State
-	if current_state != null:
-		current_state.exit()
-		
-	current_state = new_state
-	current_state.enter(msg)
-	emit_signal("transitioned", current_state.name)
+	transition_to(state_name)
+
+## Transiciona para um novo estado, mantendo assinatura flexível para aceitar múltiplos argumentos de sinais
+func transition_to(target_state_name: String, _extra_arg = null) -> void:
+	var target_key = target_state_name.to_lower()
+	if not states.has(target_key):
+		# Fallback defensivo caso o estado solicitado não exista (ex: 'patrol')
+		if states.has("idle"):
+			target_key = "idle"
+		else:
+			return
+
+	if current_state:
+		if current_state.has_method("exit"):
+			current_state.exit()
+
+	current_state = states[target_key]
+	if current_state.has_method("enter"):
+		current_state.enter()
+	
+	transitioned.emit(target_state_name)
