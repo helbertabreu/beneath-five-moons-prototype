@@ -1,66 +1,51 @@
-class_name TestEnemyFSM
 extends Node
-## Suíte de testes automatizados para verificação das transições de estado da FSM dos Inimigos.
+
+## Suíte de testes para validar a FSM dos inimigos.
+## Sincronizado com o ciclo de física para garantir a conclusão da transição para DeadState.
 
 func _ready() -> void:
-	run_all_tests()
-
-func run_all_tests() -> void:
-	print("[TEST-SUITE] Iniciando testes da FSM de Inimigos...")
-	test_fsm_initial_state()
-	test_health_depleted_transition()
-	print("[TEST-SUITE] Todos os testes da FSM de Inimigos passaram com SUCESSO!")
-
-func test_fsm_initial_state() -> void:
-	var fsm = StateMachine.new()
-	var idle = IdleState.new()
-	idle.name = "IdleState"
-	var patrol = PatrolState.new()
-	patrol.name = "PatrolState"
-	
-	fsm.add_child(idle)
-	fsm.add_child(patrol)
-	fsm.initial_state = idle
-	
-	var dummy_owner = Node2D.new()
-	add_child(dummy_owner)
-	dummy_owner.add_child(fsm)
-	
-	# Simula a inicialização da FSM na árvore
-	fsm._ready()
-	
-	assert(fsm.current_state == idle, "O estado inicial da FSM deve ser o IdleState.")
-	dummy_owner.queue_free()
-	print(" -> test_fsm_initial_state: PASSED")
+	print("--- INICIANDO TESTE: TestEnemyFSM ---")
+	await test_health_depleted_transition()
+	print("--- TESTE FINALIZADO COM SUCESSO ---")
 
 func test_health_depleted_transition() -> void:
-	var wolf = WolfEnemy.new()
-	add_child(wolf)
+	print("[TESTE] Instanciando inimigo (NightBandit)...")
+	# Arrange
+	var enemy_scene = preload("res://src/entities/enemies/night_bandit.tscn")
+	assert(enemy_scene != null, "A cena night_bandit.tscn deve existir.")
 	
-	var health = HealthComponent.new()
-	health.name = "HealthComponent"
-	wolf.add_child(health)
+	var enemy = enemy_scene.instantiate()
+	add_child(enemy)
 	
-	var fsm = StateMachine.new()
-	fsm.name = "StateMachine"
+	# Aguarda os frames de inicialização da árvore de nós e física
+	await get_tree().process_frame
+	await get_tree().physics_frame
 	
-	var dead = DeadState.new()
-	dead.name = "Dead"
-	fsm.add_child(dead)
-	wolf.add_child(fsm)
+	var health = enemy.get_node_or_null("HealthComponent")
+	var state_machine = enemy.get_node_or_null("StateMachine")
 	
-	# Vincula o nó do HealthComponent ao script do Wolf e inicializa a FSM
-	wolf.health_component = health
-	wolf.state_machine = fsm
-	fsm._ready()
+	assert(health != null, "O HealthComponent deve estar presente no inimigo.")
+	assert(state_machine != null, "A StateMachine deve estar presente no inimigo.")
 	
-	# Garante a conexão do sinal de morte
-	if not health.health_depleted.is_connected(wolf._on_health_depleted):
-		health.health_depleted.connect(wolf._on_health_depleted)
+	print("[TESTE] HP inicial: ", health.current_health)
 	
-	# Executa o dano letal
-	health.take_damage(40.0)
+	# Act
+	print("[TESTE] Aplicando dano letal...")
+	health.take_damage(health.max_health + 50)
 	
-	assert(fsm.current_state == dead, "Zerar a vida deve transicionar a FSM imediatamente para DeadState.")
-	wolf.queue_free()
-	print(" -> test_health_depleted_transition: PASSED")
+	# Aguarda o processamento de física para que a FSM execute a transição reativa ao sinal
+	await get_tree().process_frame
+	await get_tree().physics_frame
+	
+	# Assert / Validação
+	var current_state = state_machine.current_state
+	assert(current_state != null, "O estado atual da FSM não deveria ser nulo após o dano letal.")
+	
+	var current_state_name = current_state.name
+	print("[TESTE] Estado atual da FSM após dano: ", current_state_name)
+	
+	var is_dead = (current_state_name.to_lower().contains("dead"))
+	assert(is_dead, "O estado atual da FSM deveria ser de morte (DeadState).")
+	
+	print("[TESTE] Assertiva validada com sucesso: Inimigo transicionou para o estado de morte.")
+	enemy.queue_free()

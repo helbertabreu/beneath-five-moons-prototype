@@ -20,6 +20,10 @@
 - [x] **BUG-002:** Resolver falha de busca de componente em nós instanciados dinamicamente no `ActionSystem`[cite: 4].
 - [x] **BUG-003:** Corrigir erro de atribuição de literal untyped em `Array[DropEntryData]` no GDScript 4.7.1[cite: 4].
 - [ ] **BUG-004:** Inimigos (`WolfEnemy` e `NightBandit`) ficam imóveis na cena Sandbox `Main.tscn` e não registram logs de combate no console.
+- [ ] **BUG-010:** **Inimigos parados:** Os inimigos não estão se movimentando ao executar a cena principal ou de teste.
+- [ ] **BUG-011:** **HUD/Sobrevivência zerada:** A barra de energia e afins do jogador iniciam ou permanecem zeradas.
+- [ ] **BUG-012:** **Falha de Input/Ações:** As teclas de ação para minerar, abrir inventário e interagir não respondem corretamente.
+- [ ] **BUG-013:** **Falha na FSM de Inimigos:** Erro de asserção na transição para o estado de morte (`TestEnemyFSM.test_health_depleted_transition: Assertion failed: O estado atual da FSM deveria ser de morte (DeadState)`).
 
 ---
 
@@ -47,11 +51,14 @@
 
 ---
 
-## 6. TESTES & QA
+## 6. TESTES & QA (OBRIGATÓRIO)
+
+*Diretriz Permanente:* A partir de agora, **toda e qualquer implementação** (correção de bug, refatoração ou nova feature) deve obrigatoriamente incluir testes unitários/automatizados e testes manuais documentados.
 
 - [x] **TEST-001:** Criar suíte de testes unitários para o `ActionSystem` (`test_action_system.gd`)[cite: 4].
 - [x] **TEST-002:** Criar suíte de testes unitários para a distribuição estatística e margem de erro do `DropSystem` (`test_drop_system.gd`)[cite: 4].
 - [x] **TEST-003:** Criar suíte de testes unitários para a FSM e transições de estado dos inimigos (`test_enemy_fsm.gd`).
+- [ ] **TEST-004:** Implementar cobertura de testes manuais e de regressão para os bugs críticos de HUD, input e movimentação.
 
 ---
 
@@ -94,12 +101,12 @@
 
 ### Sprint 3 — State Machine & IA de Inimigos
 - **Objetivo:** Implementar a arquitetura FSM (`EnemyStateMachine`, `State`) e refatorar os inimigos `WolfEnemy` e `NightBandit`[cite: 4, 7].
-- **Resultado:** FSM genérica e estados (`IdleState`, `PatrolState`, `ChaseState`, `AttackState`, `DeadState`) criados; resolução defensiva de nós adicionada aos inimigos; `test_enemy_fsm.gd` aprovado com 100% de sucesso. Anotado o `BUG-004` para resolução no mapa Sandbox[cite: 7].
+- **Resultado:** FSM genérica e estados (`IdleState`, `PatrolState`, `ChaseState`, `AttackState`, `DeadState`) criados; resolução defensiva de nós adicionada aos inimigos; `test_enemy_fsm.gd` aprovado com ressalvas de sincronização de cena. Anotado o `BUG-004` para resolução no mapa Sandbox[cite: 7].
 
 ---
 
 ## 10. PRÓXIMA TAREFA
 
-- **ID:** `BUG-004` & `GAMEPLAY-004`
-- **Tarefa:** Resolução do travamento dos inimigos na cena Sandbox (`Main.tscn`) e implementação dos Inimigos Expandidos (`ENM-003` ao `ENM-008`)[cite: 7, 8, 9].
-- **Motivo da prioridade:** Estabilizar o teste manual no mapa do jogo e expandir o conteúdo de combate conforme a planilha de balanceamento oficial do projeto[cite: 7, 8, 9].
+- **ID:** `BUG-010`, `BUG-011`, `BUG-012` & `BUG-013` (Sprint de Estabilização de Gameplay)
+- **Tarefa:** Investigação e correção sistêmica da inicialização do player, mapeamento de inputs, vinculação de componentes de sobrevivência com a HUD e alinhamento do ciclo de vida da FSM nos testes automatizados, aplicando obrigatoriamente testes manuais e unitários.
+- **Motivo da prioridade:** Garantir que o protótipo executável (`Main.tscn`) recupere a jogabilidade básica e passe em todas as suítes de teste de integração.

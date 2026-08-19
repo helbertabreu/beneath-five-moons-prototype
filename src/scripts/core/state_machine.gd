@@ -25,15 +25,20 @@ func _ready() -> void:
 		_initialize_state()
 
 func _initialize_state() -> void:
-	if initial_state == null:
-		return
-	
 	var initial: Node = null
 	
-	if initial_state is NodePath:
-		initial = get_node_or_null(initial_state)
-	elif initial_state is Node:
-		initial = initial_state
+	if initial_state != null:
+		if initial_state is NodePath:
+			initial = get_node_or_null(initial_state)
+		elif initial_state is Node:
+			initial = initial_state
+	
+	# Fallback automático: se nenhum initial_state foi definido, pega o primeiro estado filho do tipo State
+	if initial == null and get_child_count() > 0:
+		for child in get_children():
+			if child is State:
+				initial = child
+				break
 		
 	if initial and initial is State:
 		transition_to(initial.name)
@@ -51,7 +56,8 @@ func _on_child_transition(state_name: String, source_state: State) -> void:
 		return
 	transition_to(state_name)
 
-## Transiciona para um novo estado, mantendo assinatura flexível para aceitar múltiplos argumentos de sinais
+## Transiciona para um novo estado, mantendo assinatura flexível para aceitar múltiplos argumentos de sinais.
+## Permite a ativação de um estado mesmo se o current_state anterior estiver nulo.
 func transition_to(target_state_name: String, _extra_arg = null) -> void:
 	var target_key = target_state_name.to_lower()
 	if not states.has(target_key):
@@ -61,11 +67,15 @@ func transition_to(target_state_name: String, _extra_arg = null) -> void:
 		else:
 			return
 
+	var new_state = states[target_key]
+	if current_state == new_state:
+		return
+
 	if current_state:
 		if current_state.has_method("exit"):
 			current_state.exit()
 
-	current_state = states[target_key]
+	current_state = new_state
 	if current_state.has_method("enter"):
 		current_state.enter()
 	
