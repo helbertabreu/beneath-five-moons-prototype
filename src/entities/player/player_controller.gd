@@ -5,6 +5,8 @@ extends CharacterBody2D
 ## Gerencia entrada de usuário (Input), movimentação 2D Top-Down,
 ## execução de ações atômicas via ActionSystem e integração com SurvivalComponent.
 
+const ActionSystemScript = preload("res://src/scripts/core/action_system.gd")
+
 @export var move_speed: float = 150.0
 
 @onready var survival_component: SurvivalComponent = $SurvivalComponent as SurvivalComponent
@@ -27,7 +29,7 @@ func _handle_input() -> void:
 	if Input.is_action_just_pressed("ui_accept"):
 		_interact_with_nearest_object()
 		
-	# Atachamento de atalhos de Debug (GDD / TDD Seção 44)
+	# Atalhos de Debug (GDD / TDD Seção 44)
 	if OS.is_debug_build():
 		if Input.is_key_pressed(KEY_SHIFT) and Input.is_key_pressed(KEY_1):
 			perform_gather_action()
@@ -43,7 +45,7 @@ func _apply_movement() -> void:
 ## de Tempo, Energia e Fome antes da realização da tarefa.
 func perform_gather_action() -> void:
 	var action = GameAction.new("gather_wood", 15, 10.0, 2.0)
-	var success: bool = ActionSystem.execute_action(action, self)
+	var success: bool = ActionSystemScript.execute_action(action, self)
 	
 	if success:
 		print("PlayerController: Coleta executada com sucesso! Tempo e recursos atualizados.")
@@ -69,12 +71,3 @@ func _interact_with_nearest_object() -> void:
 		if area.has_method("interact"):
 			area.interact(self)
 			return
-
-# MODO DE OPERAÇÃO: ESTADO 6 (VALIDAÇÃO) E ESTADO 7 (RELATÓRIO)
-
-### Relatório de Atualização do Script
-#* **Arquivo Modificado:** `src/entities/player/player_controller.gd`[cite: 1, 6]
-# * **Alterações Principais:**
-#  1. Integração da função `perform_gather_action()` instanciando `GameAction` e invocando `ActionSystem.execute_action(action, self)`[cite: 1, 6].
-#  2. Suporte aos atalhos de depuração (`OS.is_debug_build()`) conforme estipulado na Seção 44 do TDD[cite: 1, 6].
-#  3. Garantida a compatibilidade com a Godot 4.7.1 e a tipagem forte de dados no GDScript[cite: 1, 6].

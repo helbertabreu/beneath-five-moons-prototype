@@ -1,80 +1,125 @@
 # TECHNICAL_DECISIONS.md
 
-> Registro permanente das decisões técnicas e arquiteturais importantes do projeto Beneath Five Moons.[cite: 1, 8]
-> Preserva o histórico de decisões e impede alterações não justificadas.[cite: 8]
+> Registro permanente das decisões técnicas e arquiteturais importantes do projeto Beneath Five Moons.
+> Preserva o histórico de decisões e impede que alterações previamente aprovadas sejam modificadas sem justificativa ou autorização explícita.
 
 ---
 
 # STATUS POSSÍVEIS
 
-- PROPOSTA[cite: 8]
-- ATIVA[cite: 8]
-- SUPERADA[cite: 8]
-- CANCELADA[cite: 8]
+- PROPOSTA
+- ATIVA
+- SUPERADA
+- CANCELADA
 
 ---
 
 # DECISÕES ATIVAS
 
-## ADR-001 — Padronização em Godot Engine 4.7.1 e GDScript Fortemente Tipado[cite: 1, 8]
-**Data:** 19/08/2026[cite: 1, 8]  
-**Status:** ATIVA[cite: 8]
+## ADR-001 — Padronização na Godot Engine 4.7.1 e GDScript Fortemente Tipado
+**Data:** 19/08/2026  
+**Status:** ATIVA
 
 ### Contexto
-O projeto é desenvolvido na Godot Engine 4.7.1 utilizando GDScript fortemente tipado para garantir integridade, desempenho e detecção de erros em tempo de compilação.[cite: 1, 8]
+O projeto é desenvolvido na Godot Engine 4.7.1 utilizando GDScript fortemente tipado para garantir integridade, desempenho no ecossistema 2D e detecção prévia de erros de compilação.
 
 ### Decisão
-Todo o código, chamadas de API e estruturação de nós devem ser estritamente compatíveis com a versão 4.7.1 da Godot Engine.[cite: 1, 8]
+Todo o código, chamadas de API, tipos estáticos de variáveis e estruturação de nós devem ser rigorosamente compatíveis com a versão 4.7.1 da Godot Engine.
+
+### Motivo
+Evitar inconsistências de versão, garantir máxima compatibilidade e evitar o uso de sintaxes obsoletas do Godot 3.x ou APIs não homologadas.
 
 ---
 
-## ADR-002 — Arquitetura de Componentes e Composição[cite: 8]
-**Data:** 19/08/2026[cite: 1, 8]  
-**Status:** ATIVA[cite: 8]
+## ADR-002 — Arquitetura de Componentes e Composição
+**Data:** 19/08/2026  
+**Status:** ATIVA
 
 ### Contexto
-O projeto precisa manter sistemas flexíveis, desacoplados e testáveis para entidades como jogador, NPCs, inimigos e recursos.[cite: 8]
+O projeto precisa manter sistemas modulares, flexíveis, desacoplados e testáveis para entidades como jogador, NPCs, inimigos e recursos do mundo.
 
 ### Decisão
-Priorizar composição por Nodes/Components (`HealthComponent`, `SurvivalComponent`, `InventoryComponent`) e emissão de sinais em vez de hierarquias profundas de herança.[cite: 8]
+Priorizar composição por Nodes/Components (`HealthComponent`, `SurvivalComponent`, `InventoryComponent`, `LootTableComponent`) e emissão de sinais em vez de hierarquias profundas de herança de scripts.
+
+### Motivo
+Reduzir acoplamento, facilitar a manutenção, permitir a reutilização de código e simplificar a criação de suítes de testes unitários isolados.
 
 ---
 
-## ADR-003 — Centralização Temporal via Action Time System[cite: 8]
-**Data:** 19/08/2026[cite: 1, 8]  
-**Status:** ATIVA[cite: 8]
+## ADR-003 — Centralização Temporal e de Custo via Action Time System
+**Data:** 19/08/2026  
+**Status:** ATIVA
 
 ### Contexto
-O GDD especifica um *Action Time System*, no qual o tempo avança primariamente quando o jogador executa ações intencionais (coleta, viagem, crafting, descanso).[cite: 1, 8]
+O GDD especifica um *Action Time System*, no qual o tempo avança primariamente quando o jogador realiza ações intencionais (coleta, viagem, descanso, crafting). O protótipo legado avançava o relógio continuamente em tempo real.
 
 ### Decisão
-O `TimeManager` avança o tempo de forma discreta através da execução de instâncias de `GameAction` coordenadas pelo `ActionSystem`.[cite: 1, 6]
+O `TimeManager` avança o tempo de forma discreta e atômica unicamente através da validação e execução de instâncias de `GameAction` coordenadas centralmente pelo `ActionSystem`.
+
+### Motivo
+Elimina a degradação involuntária de fome e fadiga sem ação direta do jogador e garante sincronia com as regras biológicas e o ciclo diário do GDD.
 
 ---
 
-## ADR-004 — Busca Agnóstica e Polimórfica de Componentes[cite: 1]
-**Data:** 19/08/2026[cite: 1, 8]  
-**Status:** ATIVA[cite: 8]
+## ADR-004 — Busca Agnóstica e Polimórfica de Componentes
+**Data:** 19/08/2026  
+**Status:** ATIVA
 
 ### Contexto
-Componentes acessados por sistemas centrais (como o `ActionSystem` acessando o `SurvivalComponent`) podem possuir nomes de nó variados na árvore de cena ou serem instanciados dinamicamente em testes.[cite: 1]
+Componentes acessados por serviços e sistemas centrais (como o `ActionSystem` buscando o `SurvivalComponent`) podem possuir nomes de nó variados na árvore de cena (`PlayerSurvival`, `@Node@2`) ou serem instanciados dinamicamente em testes automatizados.
 
 ### Decisão
-Sistemas de serviços não devem depender estritamente de Strings de nome de nós (`get_node("SurvivalComponent")`). Devem utilizar iteradores e verificações por tipo de classe (`child is SurvivalComponent`) como fallback resiliente.[cite: 1]
+Sistemas de serviços não devem depender de Strings de nome de nós rígidas (`get_node("SurvivalComponent")`). Devem utilizar verificações de tipagem estática e iteradores de filhos (`child is SurvivalComponent`) como fallback resiliente.
+
+### Motivo
+Garante robustez em testes unitários automatizados, evita falsos erros no console e permite flexibilidade na montagem de cenas no editor Godot.
+
+---
+
+## ADR-005 — Drop System Data-Driven e Modificadores Ecológicos
+**Data:** 19/08/2026  
+**Status:** ATIVA
+
+### Contexto
+A geração de saques e coleta de recursos naturais/inimigos não deve conter probabilidades hardcoded dentro de scripts de gameplay.
+
+### Decisão
+Implementar a separação total entre dados e lógica através dos Custom Resources `DropTableData` e `DropEntryData`, processados pelo serviço estático `DropSystem`. O sistema aplica modificadores ambientais ($Calculated = Base \times Season \times Weather \times Profession$) e suporta os modos de rolagem `INDEPENDENT`, `WEIGHTED` e `EXCLUSIVE`.
+
+### Motivo
+Permite balanceamento de loot diretamente pelo Inspetor do Godot sem alteração de código, facilita testes estatísticos e suporta a ecologia reativa do jogo.
 
 ---
 
 # DECISÕES EM AVALIAÇÃO / PROPOSTAS
 
-## ADR-005 — Versionamento e Migração de Saves[cite: 8]
-**Data:** 19/08/2026[cite: 1, 8]  
-**Status:** PROPOSTA[cite: 8]
+## ADR-006 — Machine de Estados Finitos (FSM) Hierárquica para IA de Inimigos
+**Data:** 19/08/2026  
+**Status:** PROPOSTA
 
 ### Contexto
-O `SaveManager` legado salva dicionários de estado sem gravar a versão da estrutura do Save.[cite: 1, 8]
+A IA dos inimigos legados (`ENM-001 Lobo` e `ENM-002 Salteador`) executa verificações densas de polling e estados misturados dentro da função `_physics_process`.
+
+### Problema
+Gargalo de desempenho com múltiplas entidades na tela, acoplamento entre detecção, movimento e ataque, e dificuldade para adicionar novos comportamentos.
 
 ### Decisão Proposta
-Inserir a chave `save_version` em todos os arquivos de save e criar pipeline de migração dentro de `SaveManager`.[cite: 1, 8]
+Refatorar a IA de inimigos na Sprint 03 para utilizar uma `StateMachine` dedicada com estados isolados (`IDLE`, `PATROL`, `CHASE`, `ATTACK`, `DEAD`).
+
+---
+
+## ADR-007 — Versionamento e Migração de Saves
+**Data:** 19/08/2026  
+**Status:** PROPOSTA
+
+### Contexto
+O `SaveManager` atual armazena dicionários de estado em disco sem registrar a versão do esquema de dados.
+
+### Problema
+Adições de propriedades em futuras Sprints causarão falhas de referência nula (*null reference exceptions*) em jogos salvos em versões anteriores.
+
+### Decisão Proposta
+Inserir a chave obrigatória `save_version` em todo arquivo salvo e criar uma pipeline de funções de migração sequenciais dentro do `SaveManager`.
 
 ---
 

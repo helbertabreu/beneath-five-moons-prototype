@@ -44,12 +44,10 @@ static func execute_action(action: GameAction, actor: Node) -> bool:
 
 ## Auxiliar privado para localizar o SurvivalComponent independente do nome do nó.
 static func _find_survival_component(actor: Node) -> SurvivalComponent:
-	# Tentativa 1: Busca rápida por nome padrão
 	var comp: SurvivalComponent = actor.get_node_or_null("SurvivalComponent") as SurvivalComponent
 	if comp != null:
 		return comp
 		
-	# Tentativa 2: Iteração nos filhos procurando por tipo
 	for child in actor.get_children():
 		if child is SurvivalComponent:
 			return child as SurvivalComponent

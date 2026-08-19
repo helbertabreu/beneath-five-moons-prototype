@@ -9,7 +9,7 @@
 
 - [x] **BACKLOG-P0-001:** Implementar arquitetura do `ActionSystem` (`GameAction`, `ActionValidator`) para centralizar os custos de tempo, energia e fome.
 - [x] **BACKLOG-P0-002:** Refatorar `TimeManager` para operar em modo Action Time System, eliminando a degradação contínua em tempo real.
-- [ ] **BACKLOG-P0-003:** Criar os Resources customizados `DropTableData` e `DropEntryData` com suporte a rolagens `INDEPENDENT`, `WEIGHTED` e `EXCLUSIVE`.
+- [x] **BACKLOG-P0-003:** Criar os Resources customizados `DropTableData` e `DropEntryData` com suporte a rolagens `INDEPENDENT`, `WEIGHTED` e `EXCLUSIVE`.
 - [ ] **BACKLOG-P0-004:** Reformular o `SaveManager` adicionando o campo obrigatório `save_version` e pipelines de migração de schema.
 
 ---
@@ -18,6 +18,7 @@
 
 - [x] **BUG-001:** Corrigir penalidade noturna de sono (22:00–02:00) e a rotina de desmaio às 06:00 no `SurvivalComponent`.
 - [x] **BUG-002:** Resolver falha de busca de componente em nós instanciados dinamicamente no `ActionSystem`.
+- [x] **BUG-003:** Corrigir erro de atribuição de literal untyped em `Array[DropEntryData]` no GDScript 4.7.1.
 
 ---
 
@@ -47,7 +48,7 @@
 ## 6. TESTES & QA
 
 - [x] **TEST-001:** Criar suíte de testes unitários para o `ActionSystem` (`test_action_system.gd`).
-- [ ] **TEST-002:** Criar suíte de testes unitários para a distribuição estatística e margem de erro do `DropSystem` (`test_drop_system.gd`).
+- [x] **TEST-002:** Criar suíte de testes unitários para a distribuição estatística e margem de erro do `DropSystem` (`test_drop_system.gd`).
 
 ---
 

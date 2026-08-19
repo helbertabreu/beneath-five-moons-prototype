@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c7b7oavqfy8v0"]
+
+[ext_resource type="Script" uid="uid://brtqtpgi4pkrg" path="res://tests/unit/test_drop_system.gd" id="1_ipi6a"]
+
+[node name="test_drop_system" type="Node" unique_id=108149194]
+script = ExtResource("1_ipi6a")
