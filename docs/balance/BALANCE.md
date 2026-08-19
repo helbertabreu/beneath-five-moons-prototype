@@ -291,4 +291,3 @@ Approval < 20%
 - Valores experimentais devem ser marcados como `PLACEHOLDER` ou `TBD`.
 - Fórmulas econômicas devem possuir testes de limite.
 - Toda mudança de balanceamento deve gerar alteração de versão.
-

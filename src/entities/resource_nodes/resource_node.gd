@@ -1,39 +1,57 @@
 class_name ResourceNode
-extends Area2D
-## Representa um nó de recurso natural (mina, árvore, planta) que pode ser coletado via ActionSystem.
+extends StaticBody2D
+## Entidade interativa do mundo responsável por fornecer recursos naturais via coleta.
+##
+## Representa árvores, minérios, plantas e poços. Integra-se ao ActionSystem
+## para consumo atômico e ao DropSystem para distribuição de recompensas data-driven.
 
-@export var resource_id: String = "wood_node"
+@export var resource_id: String = "RES-001"
+@export var display_name: String = "Mina de Cobre"
+@export var required_tool_type: String = "pickaxe"
+@export var base_time_cost: int = 15
+@export var base_energy_cost: float = 10.0
+@export var base_hunger_cost: float = 2.0
+
 @export var drop_table: DropTableData
-@export var action_time_cost: int = 15
-@export var energy_cost: float = 10.0
-@export var hunger_cost: float = 2.0
 
-@onready var loot_component: LootTableComponent = $LootTableComponent as LootTableComponent
+@onready var interaction_area: Area2D = $InteractionArea as Area2D
+
+var is_depleted: bool = false
 
 func _ready() -> void:
-	if loot_component != null and drop_table != null:
-		loot_component.drop_table = drop_table
+	add_to_group("interactables")
 
-## Interface de interação do nó com o jogador.
+## Interface pública invocada pelo PlayerController para executar a interação.
 func interact(actor: Node) -> void:
-	var action = GameAction.new("harvest_resource", action_time_cost, energy_cost, hunger_cost)
-	var success: bool = ActionSystem.execute_action(action, actor)
-	
-	if success:
-		_harvest(actor)
+	if is_depleted:
+		if EventBus != null and EventBus.has_signal("floating_text_requested"):
+			EventBus.floating_text_requested.emit("Recurso Exaurido", global_position, Color.GRAY)
+		return
 
-func _harvest(actor: Node) -> void:
-	var loot: Array[Dictionary] = []
-	if loot_component != null:
-		loot = loot_component.generate_loot()
-	elif drop_table != null:
-		loot = DropSystem.evaluate_drop_table(drop_table)
-		
-	for item in loot:
-		if EventBus != null:
-			EventBus.emit_signal("item_obtained", item["item_id"], item["amount"])
-			
-	if EventBus != null:
+	_harvest_resource(actor)
+
+## Processa a coleta validando custos no ActionSystem e sorteando saques no DropSystem.
+func _harvest_resource(actor: Node) -> void:
+	# Encapsula os custos da coleta na classe GameAction da Sprint 01
+	var action = GameAction.new("harvest_" + resource_id, base_time_cost, base_energy_cost, base_hunger_cost)
+	
+	var success: bool = ActionSystem.execute_action(action, actor)
+	if not success:
+		return
+
+	# Gera recompensas através do DropSystem desacoplado da Sprint 02
+	if drop_table != null:
+		var rewards: Array[Dictionary] = DropSystem.evaluate_drop_table(drop_table)
+		for reward in rewards:
+			if EventBus != null and EventBus.has_signal("item_obtained"):
+				EventBus.emit_signal("item_obtained", reward["item_id"], reward["amount"])
+
+	if EventBus != null and EventBus.has_signal("resource_depleted"):
 		EventBus.emit_signal("resource_depleted", resource_id)
-		
-	queue_free()
+
+	# Atualiza estado para exaurido temporariamente
+	is_depleted = true
+	visible = false
+	var col_shape = $CollisionShape2D as CollisionShape2D
+	if col_shape != null:
+		col_shape.set_deferred("disabled", true)

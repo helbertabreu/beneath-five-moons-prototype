@@ -1,0 +1,80 @@
+[gd_scene format=3 uid="uid://bwexhygwe16ds"]
+
+[ext_resource type="Script" uid="uid://c3nkcnpdyikj4" path="res://src/entities/enemies/enemy_base.gd" id="1_1542u"]
+[ext_resource type="Script" uid="uid://ck2yf40qdymme" path="res://src/components/hurtbox_component.gd" id="1_l3u76"]
+[ext_resource type="Script" uid="uid://cakq88mv403x2" path="res://src/components/hitbox_component.gd" id="2_xa8q7"]
+[ext_resource type="Script" uid="uid://dwr4m3ti7w5cu" path="res://src/components/health_component.gd" id="3_xhfn6"]
+[ext_resource type="Script" uid="uid://b5v1n21vtat4n" path="res://src/components/loot_table_component.gd" id="4_q7o0w"]
+[ext_resource type="Script" uid="uid://cvnectph60e55" path="res://src/scripts/core/state_machine.gd" id="5_bh1bm"]
+[ext_resource type="Script" uid="uid://djqv50rt50g0l" path="res://src/entities/enemies/states/idle_state.gd" id="6_ignhj"]
+[ext_resource type="Script" uid="uid://dtiw5s8fdm84h" path="res://src/entities/enemies/states/patrol_state.gd" id="7_1542u"]
+[ext_resource type="Script" uid="uid://crgq4wmk4rwcm" path="res://src/entities/enemies/states/chase_state.gd" id="8_d2c5k"]
+[ext_resource type="Script" uid="uid://bfetxdluf225" path="res://src/entities/enemies/states/attack_state.gd" id="9_h4ykh"]
+[ext_resource type="Script" uid="uid://dnxo3cut8gnqk" path="res://src/entities/enemies/states/dead_state.gd" id="10_a2hmg"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jejso"]
+radius = 180.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bk70f"]
+radius = 35.0
+
+[node name="enemy_base" type="CharacterBody2D" unique_id=844127474]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_1542u")
+
+[node name="Visual" type="Sprite2D" parent="." unique_id=1164577622]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=286963525]
+
+[node name="DetectionArea" type="Area2D" parent="." unique_id=2033736221]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=2122814636]
+shape = SubResource("CircleShape2D_jejso")
+
+[node name="AttackArea" type="Area2D" parent="." unique_id=105730037]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=130657596]
+shape = SubResource("CircleShape2D_bk70f")
+
+[node name="HurtboxComponent" type="Area2D" parent="." unique_id=412176888]
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("1_l3u76")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" unique_id=74388467]
+
+[node name="HitboxComponent" type="Area2D" parent="." unique_id=1918748898]
+collision_layer = 0
+collision_mask = 8
+script = ExtResource("2_xa8q7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent" unique_id=2140846242]
+
+[node name="HealthComponent" type="Node" parent="." unique_id=1288989485]
+script = ExtResource("3_xhfn6")
+
+[node name="LootTableComponent" type="Node" parent="." unique_id=225110760]
+script = ExtResource("4_q7o0w")
+
+[node name="StateMachine" type="Node" parent="." unique_id=128812607]
+script = ExtResource("5_bh1bm")
+
+[node name="IdleState" type="Node" parent="StateMachine" unique_id=9938968]
+script = ExtResource("6_ignhj")
+
+[node name="PatrolState" type="Node" parent="StateMachine" unique_id=641000838]
+script = ExtResource("7_1542u")
+
+[node name="ChaseState" type="Node" parent="StateMachine" unique_id=459135057]
+script = ExtResource("8_d2c5k")
+
+[node name="AttackState" type="Node" parent="StateMachine" unique_id=978790612]
+script = ExtResource("9_h4ykh")
+
+[node name="DeadState" type="Node" parent="StateMachine" unique_id=93893272]
+script = ExtResource("10_a2hmg")

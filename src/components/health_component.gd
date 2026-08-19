@@ -8,6 +8,7 @@ signal health_changed(current_health: float, max_health: float)
 signal damage_taken(amount: float, attacker: Node)
 signal healed(amount: float)
 signal died
+signal health_depleted
 
 @export var max_health: float = 100.0:
 	set(value):
@@ -34,8 +35,9 @@ func take_damage(amount: float, attacker: Node = null) -> void:
 	health_changed.emit(current_health, max_health)
 	damage_taken.emit(amount, attacker)
 
-	# Solficta texto flutuante de dano na HUD/Tela se disponível
-	EventBus.floating_text_requested.emit("-%.0f" % amount, get_parent_global_position(), Color.INDIAN_RED)
+	# Solicita texto flutuante de dano na HUD/Tela se disponível
+	if EventBus != null and EventBus.has_signal("floating_text_requested"):
+		EventBus.floating_text_requested.emit("-%.0f" % amount, get_parent_global_position(), Color.INDIAN_RED)
 
 	if current_health <= 0.0 and not is_dead:
 		_die()
@@ -51,13 +53,15 @@ func heal(amount: float) -> void:
 	healed.emit(amount)
 
 	# Solicita texto flutuante de cura na HUD/Tela se disponível
-	EventBus.floating_text_requested.emit("+%.0f" % amount, get_parent_global_position(), Color.LIGHT_GREEN)
+	if EventBus != null and EventBus.has_signal("floating_text_requested"):
+		EventBus.floating_text_requested.emit("+%.0f" % amount, get_parent_global_position(), Color.LIGHT_GREEN)
 
 
 func _die() -> void:
 	is_dead = true
 	print("COMBATE: Entidade '%s' foi derrotada!" % get_parent().name)
 	died.emit()
+	health_depleted.emit()
 
 
 ## Retorna a posição global da entidade pai de forma defensiva

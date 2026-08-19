@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://8pcb0kqfaeoo"]
 
 [ext_resource type="Script" uid="uid://c7hnxayrndwih" path="res://src/entities/enemies/wolf_enemy.gd" id="1_oc1q7"]
+[ext_resource type="Texture2D" uid="uid://sgy4knwpusyx" path="res://assets/lobojpg.jpg" id="2_dd2nu"]
 [ext_resource type="Script" uid="uid://dwr4m3ti7w5cu" path="res://src/components/health_component.gd" id="2_jrjhv"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lrn3t"]
@@ -21,6 +22,7 @@ radius = 180.0
 script = ExtResource("1_oc1q7")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1634976220]
+texture = ExtResource("2_dd2nu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=566026508]
 shape = SubResource("CapsuleShape2D_lrn3t")

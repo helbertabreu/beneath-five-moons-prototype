@@ -27,35 +27,32 @@ Beneath Five Moons é um RPG Sandbox 2D multiplayer cooperativo no qual o jogado
 ### Core Loop
 
 ```text
-Entendido perfeitamente. Como Tech Lead e Arquiteto de Software, atendo à sua solicitação e realizo a verificação, sincronização e entrega dos três documentos de governança (PROJECT_STATE.md, BACKLOG.md e TECHNICAL_DECISIONS.md).Analisando a estrutura do repositório legado e sincronizando-o com os avanços reais e correções que executamos nas Sprints 01 e 02:Sprint 01 (Concluída): GameAction, ActionValidator, ActionSystem (com busca por tipo de nó em fallback), TimeManager (migrado para Action Time) e SurvivalComponent (faixas de fome e exaustão diária).  Sprint 02 (Concluída): DropEntryData, DropTableData, DropSystem (data-driven com suporte a modos INDEPENDENT, EXCLUSIVE e WEIGHTED), LootTableComponent e ResourceNode integrados ao consumo de tempo/energia.  Regras de Entrega: Respeito estritamente a regra de enviar cada arquivo de governança .md isoladamente em sua própria mensagem, totalmente formatado em Markdown completo e sem dados incompletos ou marcadores de omissão.  Abaixo entrego o conteúdo COMPLETO E ÍNTEGRO do primeiro arquivo: PROJECT_STATE.md.  PROJECT_STATE.mdDocumento de estado atual do projeto Godot 4.7.1.
-Este arquivo reflete o estado REAL do projeto e é atualizado ao final de auditorias, Sprints e mudanças arquiteturais.  1. IDENTIFICAÇÃO DO PROJETONome do projeto: Beneath Five Moons  Versão atual: 0.4.0-prototype  Versão da Godot: 4.7.1  Plataformas alvo: PC (Windows / Linux / macOS)  Gênero: RPG Sandbox 2D / Survival Leve / Economia Dinâmica / Multiplayer Cooperativo PvE  Perspectiva: Top-Down 2D  Status geral: DESENVOLVIMENTO / SPRINT 02 CONCLUÍDA  Última atualização: 19/08/2026  2. VISÃO GERALDescriçãoBeneath Five Moons é um RPG Sandbox 2D multiplayer cooperativo no qual o jogador constrói sua vida dentro de um mundo persistente e reativo. O gameplay evolui de sobrevivência e coleta básica até o desenvolvimento de profissões, comércio dinâmico e governança de vilarejos.  Core LoopPlaintextEXPLORAR → COLETAR → DESENVOLVER PROFISSÃO → PRODUZIR → VENDER/TROCAR → GANHAR DINHEIRO → AUMENTAR REPUTAÇÃO → GOVERNAR → ENDLESS SANDBOX
-```[cite: 1]
+EXPLORAR → COLETAR → DESENVOLVER PROFISSÃO → PRODUZIR → VENDER/TROCAR → GANHAR DINHEIRO → AUMENTAR REPUTAÇÃO → GOVERNAR → ENDLESS SANDBOX
+```[cite: 7]
 
 ### Objetivo atual do projeto
 
-Concluir a transição da arquitetura Data-Driven de Drops e Coleta da Sprint 02 e preparar a execução da Sprint 03 (Inimigos do MVP & State Machine).[cite: 1, 6]
+Concluir a estruturação da governança, registrar o backlog de correção do teste manual do sandbox (`BUG-004`) e planejar a integração da Tabela Expandida de Inimigos (`ENM-003` ao `ENM-008`)[cite: 7, 11, 13].
 
 ---
 
 ## 3. ESTADO DA SPRINT
 
-- **Sprint atual:** Sprint 02 (Data-Driven Drop & Resource Nodes)[cite: 1, 6]
-- **Objetivo:** Implementar os Custom Resources `DropTableData` e `DropEntryData`, o serviço desacoplado `DropSystem` com suporte aos modos de rolagem (`INDEPENDENT`, `WEIGHTED`, `EXCLUSIVE`) e refatorar `ResourceNode` e `LootTableComponent`.[cite: 1, 6]
-- **Início:** 19/08/2026[cite: 1, 6]
-- **Previsão de conclusão:** 19/08/2026[cite: 1, 6]
-- **Status:** CONCLUÍDA[cite: 6]
+- **Sprint atual:** Sprint 03 (Inimigos do MVP & State Machine)[cite: 7, 13]
+- **Objetivo:** Implementar a arquitetura FSM (`EnemyStateMachine`, `State`), os nós de estado reutilizáveis e desacoplar o combate do `WolfEnemy` e `NightBandit`[cite: 7, 13].
+- **Início:** 19/08/2026[cite: 7, 13]
+- **Previsão de conclusão:** 19/08/2026[cite: 7, 13]
+- **Status:** CONCLUÍDA[cite: 7, 13]
 
 ### Progresso
 
-- [x] Criação da classe `GameAction` para encapsular custos atômicos (Sprint 01).[cite: 1, 6]
-- [x] Implementação do `ActionValidator` e `ActionSystem` com busca resiliente por tipo (Sprint 01).[cite: 1, 6]
-- [x] Refatoração do `TimeManager` para Action Time System (Sprint 01).[cite: 1, 6]
-- [x] Atualização do `SurvivalComponent` com as 5 faixas de fome e exaustão (Sprint 01).[cite: 1, 6]
-- [x] Criação do Custom Resource `DropEntryData` (`src/resources/drop_entry_data.gd`).[cite: 1, 6]
-- [x] Criação do Custom Resource `DropTableData` (`src/resources/drop_table_data.gd`).[cite: 1, 6]
-- [x] Implementação do serviço `DropSystem` (`src/scripts/core/drop_system.gd`) com multiplicadores ecológicos.[cite: 1, 6]
-- [x] Refatoração do `LootTableComponent` e do `ResourceNode` para consumir `DropSystem` e `ActionSystem`.[cite: 1, 6]
-- [x] Validação das suítes de testes automatizados `test_action_system.gd` e `test_drop_system.gd`.[cite: 1, 6]
+- [x] Criação da classe base `State` (`src/scripts/core/state.gd`)[cite: 7].
+- [x] Criação do gerenciador `EnemyStateMachine` (`src/scripts/core/state_machine.gd`) com mitigação de shadowing e defensiva contra null-owner[cite: 7].
+- [x] Criação dos estados concretos da FSM (`IdleState`, `PatrolState`, `ChaseState`, `AttackState`, `DeadState`)[cite: 7].
+- [x] Criação do controller base `EnemyBase` (`src/entities/enemies/enemy_base.gd`) e inclusão do sinal `health_depleted` no `HealthComponent`[cite: 7].
+- [x] Refatoração do `WolfEnemy` e `NightBandit` para utilizar resoluções defensivas de nó no `_ready()`[cite: 7].
+- [x] Validação completa da suíte de testes unitários automatizados da FSM (`tests/test_enemy_fsm.gd`)[cite: 7].
+- [ ] Correção do bug de movimentação/logs de combate dos inimigos no mapa Sandbox `Main.tscn` (`BUG-004` — Anotado no Backlog)[cite: 7].
 
 ---
 
@@ -63,70 +60,60 @@ Concluir a transição da arquitetura Data-Driven de Drops e Coleta da Sprint 02
 
 | Sistema | Estado | Qualidade | Localização | Observações |
 |---|---|---|---|---|
-| Action System | FUNCIONAL | ALTA | `src/scripts/core/action_system.gd` | Validação atômica e busca desacoplada de nós por tipo.[cite: 1, 6] |
-| Time System | FUNCIONAL | ALTA | `autoload/time_manager.gd` | Convertido com sucesso para Action Time System.[cite: 1, 6] |
-| Survival System | FUNCIONAL | ALTA | `src/components/survival_component.gd` | Integrado ao GDD Seção 8 (5 faixas de fome e exaustão).[cite: 1, 6] |
-| Drop System | FUNCIONAL | ALTA | `src/scripts/core/drop_system.gd` | Concluído em arquitetura Data-Driven na Sprint 02.[cite: 1, 6] |
-| Resource Nodes | FUNCIONAL | ALTA | `src/entities/resource_nodes/` | Integrado ao ActionSystem e ao DropSystem.[cite: 1, 6] |
-| Player | FUNCIONAL | ALTA | `src/entities/player/player_controller.gd` | Integrado ao ActionSystem para testes de coleta.[cite: 6] |
-| Combate | PARCIAL | PROTÓTIPO | `src/components/hitbox_component.gd` | Lógica básica operante; aguardando FSM na Sprint 03.[cite: 1, 6] |
-| Inimigos / IA | PROTÓTIPO | PRECISA REFACTOR | `src/entities/enemies/` | Polling denso no `_process`; requer StateMachine na Sprint 03.[cite: 1, 6] |
-| Inventário | PARCIAL | FUNCIONAL | `src/components/inventory_component.gd` | Funcionalidade básica operante.[cite: 1, 6] |
-| Profissões & Crafting| PARCIAL | PROTÓTIPO | `src/components/profession_component.gd` | Aguardando reestruturação de bancadas passivas.[cite: 1, 6] |
-| Economia | PARCIAL | PROTÓTIPO | `src/entities/npcs/npc_vendor.gd` | Falta PriceCalculator dinâmico.[cite: 1, 6] |
-| Save/Load | PARCIAL | COM BUG | `autoload/save_manager.gd` | Requer versionamento e migração de schema.[cite: 1, 6] |
+| Action System | FUNCIONAL | ALTA | `src/scripts/core/action_system.gd` | Validação atômica de custos de tempo, fome e energia[cite: 7]. |
+| Time System | FUNCIONAL | ALTA | `autoload/time_manager.gd` | Action Time System operante[cite: 7]. |
+| Survival System | FUNCIONAL | ALTA | `src/components/survival_component.gd` | Sincronizado aos sinais do `EventBus` (`hunger_changed`, `energy_changed`)[cite: 7]. |
+| Drop System | FUNCIONAL | ALTA | `src/scripts/core/drop_system.gd` | Data-Driven com modos `INDEPENDENT`, `WEIGHTED` e `EXCLUSIVE`[cite: 7]. |
+| Resource Nodes | FUNCIONAL | ALTA | `src/entities/resource_nodes/` | Herança corrigida para `StaticBody2D` com `InteractionArea`[cite: 7]. |
+| Player | FUNCIONAL | ALTA | `src/entities/player/player_controller.gd` | Resolução defensiva de componentes e registro no grupo `"player"`[cite: 7]. |
+| Inimigos / FSM | FUNCIONAL | ALTA | `src/scripts/core/state_machine.gd` | FSM operante nos testes unitários; pendente ajuste no Sandbox[cite: 7]. |
+| Combate | PARCIAL | PROTÓTIPO | `src/components/hitbox_component.gd` | Hitboxes ativadas via `AttackState`[cite: 7]. |
+| Inventário | PARCIAL | FUNCIONAL | `src/components/inventory_component.gd` | Funcionalidade básica operante[cite: 7]. |
+| Save/Load | PARCIAL | COM BUG | `autoload/save_manager.gd` | Requer versionamento de schema[cite: 7, 13]. |
 
 ---
 
-## 5. ARQUITETURA ATUAL
-
-### Estrutura principal
-
-```text
-res://
-├── autoload/          # Autoloads globais (EventBus, TimeManager, SaveManager)
-├── data/              # Instâncias de Resource (.tres)
-├── docs/              # GDD, TDD e Especificações Técnicas
-├── src/
-│   ├── components/    # Componentes reutilizáveis (Survival, Health, Inventory, Loot)
-│   ├── entities/      # Entidades do jogo (Player, NPCs, Enemies, ResourceNodes)
-│   ├── resources/     # Custom Resources (DropTableData, DropEntryData, ItemData)
-│   ├── scenes/        # Cenas do jogo
-│   ├── scripts/       # Lógica central e sistemas (core/)
-│   └── ui/            # Cenas e controllers de interface
-└── tests/             # Suítes de testes unitários e de integração
-```[cite: 6]
-
-### Autoloads
-
-| Autoload | Função | Status |
-|---|---|---|
-| `EventBus` | Barramento central de sinais desacoplados | FUNCIONAL[cite: 6] |
-| `TimeManager` | Gestor do tempo de jogo (Action Time) | FUNCIONAL[cite: 1, 6] |
-| `SaveManager` | Persistência de dados | PRECISA REFACTOR[cite: 1, 6] |
-| `QuestManager` | Gerenciamento de missões | PARCIAL[cite: 6] |
-| `ReputationManager`| Gerenciamento de reputação | PARCIAL[cite: 6] |
-
----
-
-## 6. GDD × IMPLEMENTAÇÃO
-
-| Requisito do GDD | Implementado? | Estado | Localização | Ação |
-|---|---|---|---|---|
-| Action Time System | SIM | FUNCIONAL | `src/scripts/core/` | Concluído na Sprint 01.[cite: 1, 6] |
-| Faixas de Fome & Penalidades | SIM | FUNCIONAL | `survival_component.gd` | Ajustado conforme GDD Seção 8.[cite: 1, 6] |
-| Tabela de Drops Data-Driven | SIM | FUNCIONAL | `src/resources/`, `src/scripts/core/` | Concluído na Sprint 02.[cite: 1, 6] |
-| Inimigos ENM-001 e ENM-002 | SIM | PROTÓTIPO | `src/entities/enemies/` | Refatorar IA com `StateMachine` na Sprint 03.[cite: 1, 6] |
-
----
-
-## 7. BUGS CONHECIDOS
+## 5. BUGS CONHECIDOS
 
 | ID | Bug | Severidade | Reprodução | Status |
 |---|---|---|---|---|
-| BUG-001 | Desmaio por fadiga às 06:00 não redefine o horário corretamente para o meio-dia | ALTA | Permanecer acordado até 06:00 | RESOLVIDO (Sprint 01)[cite: 6] |
-| BUG-002 | Busca de componente por String falhava em atores genéricos de teste | ALTA | Executar `test_action_system.gd` | RESOLVIDO (Sprint 01)[cite: 1] |
-| BUG-003 | Atribuição direta de literal de Array em `Array[DropEntryData]` gerava erro no GDScript 4.7.1 | ALTA | Executar `test_drop_system.gd` | RESOLVIDO (Sprint 02) |
+| BUG-001 | Desmaio por fadiga às 06:00 não redefinia o horário | ALTA | Permanecer acordado até 06:00 | RESOLVIDO (Sprint 01)[cite: 7] |
+| BUG-002 | Busca de componente por String falhava em atores genéricos | ALTA | Executar `test_action_system.gd` | RESOLVIDO (Sprint 01)[cite: 7] |
+| BUG-003 | Atribuição de Array genérico em `Array[DropEntryData]` falhava | ALTA | Executar `test_drop_system.gd` | RESOLVIDO (Sprint 02)[cite: 7] |
+| BUG-004 | Inimigos não se movimentam no mapa Sandbox `Main.tscn` e não registram logs de combate no console | MÉDIA | Iniciar a cena `res://src/scenes/main.tscn` e aproxima-se do Lobo/Salteador | **ABERTO** (Anotado no Backlog)[cite: 7] |
+
+---
+
+## 6. DÍVIDA TÉCNICA
+
+| ID | Problema | Severidade | Impacto | Recomendação | Status |
+|---|---|---|---|---|---|
+| TECH-001 | Ausência do `ActionSystem` central | ALTA | Inconsistência no consumo de tempo/status | RESOLVIDO (Sprint 01)[cite: 7] |
+| TECH-002 | Drops sem Resources customizados | ALTA | Impossibilita balanceamento data-driven | RESOLVIDO (Sprint 02)[cite: 7] |
+| TECH-003 | Polling denso em IA de Inimigos | MÉDIA | Gargalo de desempenho | RESOLVIDO (Sprint 03 via FSM)[cite: 7] |
+| TECH-004 | Desvinculação visual dos inimigos na cena `Main.tscn` | MÉDIA | Inimigos imóveis no teste manual sandbox | Mapear árvore de cena do `World/Enemies` na Sprint de Fixes (`BUG-004`)[cite: 7] |
+
+---
+
+## 7. DECISÕES IMPORTANTES
+
+Consulte `TECHNICAL_DECISIONS.md`[cite: 7, 15].
+
+| ID | Decisão | Data | Status |
+|---|---|---|---|
+| ADR-001 | Godot Engine 4.7.1 e GDScript Fortemente Tipado | 19/08/2026 | ATIVA[cite: 7, 15] |
+| ADR-002 | Arquitetura de Componentes e Composição | 19/08/2026 | ATIVA[cite: 7, 15] |
+| ADR-003 | Action Time System Centralizado | 19/08/2026 | ATIVA[cite: 7, 15] |
+| ADR-004 | Busca Agnóstica e Polimórfica de Componentes | 19/08/2026 | ATIVA[cite: 7] |
+| ADR-005 | Drop System Data-Driven | 19/08/2026 | ATIVA[cite: 7] |
+| ADR-006 | State Machine de Inimigos (`EnemyStateMachine`) | 19/08/2026 | ATIVA[cite: 7, 15] |
+
+---
+
+## 8. PRÓXIMAS TAREFAS
+
+1. Fornecer os arquivos `BACKLOG.md`, `TECHNICAL_DECISIONS.md` e `BALANCE.md` atualizados em mensagens sequenciais isoladas[cite: 7].
+2. Apresentar o plano da Sprint 04 cobrindo a resolução do `BUG-004` e a integração dos Inimigos de Expansão (`ENM-003` a `ENM-008`)[cite: 7, 11].
 
 ---
 

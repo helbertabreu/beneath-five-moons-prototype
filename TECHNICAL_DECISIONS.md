@@ -91,22 +91,22 @@ Permite balanceamento de loot diretamente pelo Inspetor do Godot sem alteração
 
 ---
 
-# DECISÕES EM AVALIAÇÃO / PROPOSTAS
-
-## ADR-006 — Machine de Estados Finitos (FSM) Hierárquica para IA de Inimigos
+## ADR-006 — Machine de Estados Finitos (`EnemyStateMachine`) para IA de Inimigos
 **Data:** 19/08/2026  
-**Status:** PROPOSTA
+**Status:** ATIVA
 
 ### Contexto
-A IA dos inimigos legados (`ENM-001 Lobo` e `ENM-002 Salteador`) executa verificações densas de polling e estados misturados dentro da função `_physics_process`.
+A IA dos inimigos legados (`ENM-001 Lobo` e `ENM-002 Salteador`) executava verificações densas de polling e estados misturados dentro da função `_physics_process`.
 
-### Problema
-Gargalo de desempenho com múltiplas entidades na tela, acoplamento entre detecção, movimento e ataque, e dificuldade para adicionar novos comportamentos.
+### Decisão
+Adoção da classe global unívoca `EnemyStateMachine` com nós de estado desacoplados derivados de `State` (`IdleState`, `PatrolState`, `ChaseState`, `AttackState`, `DeadState`). A comunicação do ciclo de vida e das conexões de morte é feita via sinais (`health_depleted` / `died` no `HealthComponent`).
 
-### Decisão Proposta
-Refatorar a IA de inimigos na Sprint 03 para utilizar uma `StateMachine` dedicada com estados isolados (`IDLE`, `PATROL`, `CHASE`, `ATTACK`, `DEAD`).
+### Motivo
+Elimina o polling desnecessário, melhora a modularidade, evita sombras de símbolos no registrador GDScript e facilita a criação de novos comportamentos para inimigos expandidos.
 
 ---
+
+# DECISÕES EM AVALIAÇÃO / PROPOSTAS
 
 ## ADR-007 — Versionamento e Migração de Saves
 **Data:** 19/08/2026  

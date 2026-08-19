@@ -9,13 +9,35 @@ const ActionSystemScript = preload("res://src/scripts/core/action_system.gd")
 
 @export var move_speed: float = 150.0
 
-@onready var survival_component: SurvivalComponent = $SurvivalComponent as SurvivalComponent
-@onready var interaction_area: Area2D = $InteractionArea as Area2D
+var survival_component: SurvivalComponent
+var interaction_area: Area2D
 
 var move_direction: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
+	# Registro obrigatório no grupo de atores ANTES de buscar sub-nós
 	add_to_group("player")
+	_setup_components_defensive()
+
+## Garante a inicialização defensiva dos componentes sem causar exceções no debugger
+func _setup_components_defensive() -> void:
+	# Busca defensiva do SurvivalComponent
+	if survival_component == null:
+		survival_component = get_node_or_null("SurvivalComponent") as SurvivalComponent
+		if survival_component == null:
+			for child in get_children():
+				if child is SurvivalComponent:
+					survival_component = child as SurvivalComponent
+					break
+
+	# Busca defensiva da InteractionArea
+	if interaction_area == null:
+		interaction_area = get_node_or_null("InteractionArea") as Area2D
+		if interaction_area == null:
+			for child in get_children():
+				if child is Area2D and child.name != "Hurtbox" and child.name != "Hitbox":
+					interaction_area = child as Area2D
+					break
 
 func _physics_process(_delta: float) -> void:
 	_handle_input()
@@ -40,15 +62,12 @@ func _apply_movement() -> void:
 	move_and_slide()
 
 ## Executa uma ação atômica de coleta (exemplo: coletar madeira/recurso).
-##
-## Utiliza a arquitetura ActionSystem para validar e deduzir custos atômicos
-## de Tempo, Energia e Fome antes da realização da tarefa.
 func perform_gather_action() -> void:
 	var action = GameAction.new("gather_wood", 15, 10.0, 2.0)
 	var success: bool = ActionSystemScript.execute_action(action, self)
 	
 	if success:
-		print("PlayerController: Coleta executada com sucesso! Tempo e recursos atualizados.")
+		print("PlayerController: Coleta executada com sucesso!")
 	else:
 		print("PlayerController: Não foi possível realizar a coleta.")
 

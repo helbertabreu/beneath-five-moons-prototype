@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://hao1ov7trhay" path="res://src/entities/enemies/night_bandit.gd" id="1_bq6tn"]
 [ext_resource type="Script" uid="uid://dwr4m3ti7w5cu" path="res://src/components/health_component.gd" id="2_bm74j"]
+[ext_resource type="Texture2D" uid="uid://ckb7nqx4nyudp" path="res://assets/bandidojpg.jpg" id="2_kvpmq"]
 [ext_resource type="Script" uid="uid://cakq88mv403x2" path="res://src/components/hitbox_component.gd" id="3_kvpmq"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_u0ya7"]
@@ -22,6 +23,7 @@ radius = 220.0
 script = ExtResource("1_bq6tn")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=224580019]
+texture = ExtResource("2_kvpmq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1300585374]
 shape = SubResource("CapsuleShape2D_u0ya7")
